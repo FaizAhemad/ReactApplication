@@ -1,9 +1,9 @@
-import React from 'react'
+import { Container } from "react-bootstrap";
 
 function Home1() {
   return (
-    <div>Home1</div>
+    <Container style={{ margin: '120px 0px 0px 0px' }}>Home1</Container>
   )
-}
+};
 
-export default Home1
+export default Home1;

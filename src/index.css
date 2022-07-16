@@ -1,5 +1,31 @@
 * {
   box-sizing: border-box;
+  scrollbar-face-color: rgb(210, 210, 210);
+  /*Firefox 63 compatibility*/
+  scrollbar-track-color: rgb(46, 54, 69);
+  /* Firefox 63 compatibility */
+  scrollbar-color: rgb(46, 54, 69) #ffffff;
+  scrollbar-width: thin
+}
+
+/* width */
+*::-webkit-scrollbar {
+  width: 10px
+}
+
+/* Track */
+*::-webkit-scrollbar-track {
+  background: #ffffff
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  background: #212529
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+  background: #212529
 }
 
 html,
@@ -9,7 +35,7 @@ body {
   height: 100%;
   width: 100%;
   padding: 0;
-  margin: 0;
+  margin: 0
 }
 
 body {
@@ -18,6 +44,5 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  
+  -moz-osx-font-smoothing: grayscale
 }

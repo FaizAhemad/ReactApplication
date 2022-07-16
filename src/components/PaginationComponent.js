@@ -1,10 +1,8 @@
-import React from 'react'
 import { Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { changePaginationProps, changeProductView } from '../actions/products-action';
 
 function PaginationComponent({ currentPage, size, pages, totalPages, paginationSize, setCurrentPageValue, setValue, ...props }) {
-
     return (
         <Pagination size={size}>
             <Pagination.First
@@ -33,15 +31,14 @@ function PaginationComponent({ currentPage, size, pages, totalPages, paginationS
             />
             {
                 pages.length !== 0 ?
-
-                    pages.map((pages, i) => {
+                    pages.map(pages => {
                         if (totalPages < paginationSize) {
                             if (pages <= paginationSize) {
                                 return (
                                     <Pagination.Item active={pages === currentPage && true} onClick={(e) => {
                                         props.setPaginationProps({ currentPage: parseInt(e.target.innerHTML) })
                                         setCurrentPageValue(parseInt(e.target.innerHTML));
-                                    }} key={i}>{pages}</Pagination.Item>
+                                    }} key={pages}>{pages}</Pagination.Item>
                                 )
                             }
                         }
@@ -68,7 +65,6 @@ function PaginationComponent({ currentPage, size, pages, totalPages, paginationS
                     :
                     <Pagination.Item >Calculating pages...</Pagination.Item>
             }
-
             <Pagination.Next
                 disabled={currentPage === totalPages}
                 onClick={() => {
@@ -98,23 +94,23 @@ function PaginationComponent({ currentPage, size, pages, totalPages, paginationS
             />
         </Pagination>
     )
-}
+};
 
 const mapStateToProps = (store) => {
     return {
         store: store
     }
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         changeProductViewDispatch: (view) => {
-            dispatch(changeProductView(view))
+            dispatch(changeProductView(view));
         },
         setPaginationProps: (obj) => {
-            dispatch(changePaginationProps(obj))
+            dispatch(changePaginationProps(obj));
         }
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaginationComponent);
