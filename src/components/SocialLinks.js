@@ -13,7 +13,7 @@ function SocialLinks({ facebook, instagram, youtube, whatsapp, twitter, linkedin
             <div className='icn-socialmedia' onClick={() => openInNewTab(twitter)}><FontAwesomeIcon className='twitter' icon={faTwitter} /></div>
             <div className='icn-socialmedia' onClick={() => openInNewTab(linkedin)}><FontAwesomeIcon className='linkedin' icon={faLinkedin} /></div>
             <div className='icn-socialmedia' style={{ padding: "10px 0 0 0 ", margin: 0, position: "relative", width: '50px', justifyContent: "center", height: '0' }}>{constants.FOLLOW}</div>
-            <div className='icn-socialmedia' style={{ padding: "0 0 10px 0", margin: 0, position: "relative", width: '40px', justifyContent: "center" }}>{constants.US}</div>
+            <div className='icn-socialmedia' style={{ padding: "0 0 10px 0", margin: 0, position: "relative", width: '40px', justifyContent: "center" }}>{constants.US.toLocaleLowerCase()}</div>
         </div>
     )
 };

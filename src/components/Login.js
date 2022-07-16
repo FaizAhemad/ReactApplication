@@ -5,10 +5,9 @@ import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import './login.css'
-import { days, months, years, countries, getAllCountriesUrl, formVariables } from '../constants/constants';
+import { days, months, years, getAllCountriesUrl, formVariables, defaultScrollPosition } from '../constants/constants';
 import { updateUser } from '../actions/login-actions';
 import { changeProductView } from '../actions/products-action';
-
 
 function Login({ user, isAdmin, isLoggedIn, setUserDetails, ...props }) {
   const Location = useLocation();
@@ -37,12 +36,14 @@ function Login({ user, isAdmin, isLoggedIn, setUserDetails, ...props }) {
 
   useEffect(() => {
     console.log(user && user, isLoggedIn, isAdmin);
+    defaultScrollPosition(0, 70);
     axios.get(getAllCountriesUrl).then(res => {
       const data = res.data;
       setCountriesInfo(data)
     });
     // setUserDetails({isLoggedIn:true});
   }, []);
+
 
   const submitLogin = () => {
     if (!uname) {
@@ -90,7 +91,7 @@ function Login({ user, isAdmin, isLoggedIn, setUserDetails, ...props }) {
             <Form.Text className='text-muted'><Link to='/resetpassword' style={{ color: 'red' }}>{formVariables.FORGOT_PASSWORD}</Link> </Form.Text>
           </Form.Group>
           <Form.Group className='mb-3'>
-            <Form.Text className='text-muted'>{formVariables.NOT_REGISTERED_YET} <br /> {formVariables.CLICK.toLocaleLowerCase()} <Link to='/register'>{formVariables.HERE.toLocaleLowerCase()}</Link> {formVariables.TO.toLocaleLowerCase()} {formVariables.CREATE_A_NEW_ACCOUNT.toLocaleLowerCase()}.</Form.Text>
+            <Form.Text className='text-muted'>{formVariables.NOT_REGISTERED_YET} <br /> {formVariables.CLICK.toLocaleLowerCase()} <Link to='/register' onClick={() => defaultScrollPosition(0, 70)}>{formVariables.HERE.toLocaleLowerCase()}</Link> {formVariables.TO.toLocaleLowerCase()} {formVariables.CREATE_A_NEW_ACCOUNT.toLocaleLowerCase()}.</Form.Text>
           </Form.Group>
           <Button variant='primary' type='button' onClick={submitLogin}>
             {formVariables.LOGIN}
@@ -122,7 +123,7 @@ function Login({ user, isAdmin, isLoggedIn, setUserDetails, ...props }) {
               <Form.Text className='text-muted textError'>{ }</Form.Text>
             </Form.Group>
             <Form.Group className='mb-3' >
-              <Form.Label>{formVariables.LASTNAME}</Form.Label>
+              <Form.Label>{formVariables.LAST_NAME}</Form.Label>
               <Form.Control onChange={(e) => {
                 setLname(e.target.value);
               }} value={lname} />
@@ -241,7 +242,7 @@ function Login({ user, isAdmin, isLoggedIn, setUserDetails, ...props }) {
           </div>
           <Form.Group className='mt-2' >
             <Form.Group className='mb-3'>
-              <Form.Text className='text-muted'>{formVariables.ALREADY_HAVE_AN_ACCOUNT} {formVariables.CLICK.toLocaleLowerCase()} <Link to='/login'>{formVariables.HERE.toLocaleLowerCase()}</Link> {formVariables.TO} {formVariables.LOGIN.toLocaleLowerCase()}.</Form.Text>
+              <Form.Text className='text-muted'>{formVariables.ALREADY_HAVE_AN_ACCOUNT} {formVariables.CLICK.toLocaleLowerCase()} <Link to='/login' onClick={() => defaultScrollPosition(0, 70)}>{formVariables.HERE.toLocaleLowerCase()}</Link> {formVariables.TO} {formVariables.LOGIN.toLocaleLowerCase()}.</Form.Text>
             </Form.Group>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Button variant='success' type='button' onClick={submitRegisterationForm}>

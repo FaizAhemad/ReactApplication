@@ -2,13 +2,15 @@ import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { defaultScrollPosition } from "../constants/constants";
 
-function Contact() {
+function MyOrders() {
+  
   useEffect(() => {
     defaultScrollPosition();
   }, []);
+
   return (
-    <Container style={{ margin: '120px 0px 0px 0px' }}>Contact</Container>
+    <Container style={{ margin: '120px 0px 0px 0px' }}>MyOrders</Container>
   )
 };
 
-export default Contact;
+export default MyOrders;

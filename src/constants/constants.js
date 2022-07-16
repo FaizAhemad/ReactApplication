@@ -24,6 +24,9 @@ export const constants = {
     PLEASE_CLICK_HERE_TO_GO_TO: 'Please click here to go to ',
     SHOWING: 'Showing',
     OF: 'Of',
+    MY_CART: 'My cart',
+    PAGES: 'Pages',
+    PAGE: 'Page'
 };
 
 export const formVariables = {
@@ -61,6 +64,10 @@ export const formVariables = {
 
 };
 
+export const ProductStrings = {
+    TODAYS_DEAL: 'Today\'s Deal'
+}
+
 export const navLinks = {
     HOME: 'Home',
     NEW_ARRIVALS: 'New Arrivals',
@@ -68,7 +75,8 @@ export const navLinks = {
     CATEGORIES: 'Categories',
     SIGN_IN: 'Sign In',
     LOGIN: 'Login',
-    REGISTER: 'Register'
+    REGISTER: 'Register',
+    RETURNS_AND_ORDERS: 'Returns & Orders'
 };
 
 export const title = {
@@ -96,3 +104,25 @@ export const countries = [];
 export const getAllCountriesUrl = 'https://restcountries.com/v3.1/all';
 
 export const openInNewTab = url => window.open(url, '_blank', 'noopener,noreferrer');
+
+export const responsive = {
+    superLargeDesktop: {
+        // the naming can be any, depends on you.
+        breakpoint: { max: 4000, min: 3000 },
+        items: 7
+    },
+    desktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 4
+    },
+    tablet: {
+        breakpoint: { max: 1024, min: 464 },
+        items: 2
+    },
+    mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 1
+    }
+};
+
+export const defaultScrollPosition = (x = 0, y = 0) => window.scrollTo(x, y);

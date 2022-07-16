@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardGroup, Container, Pagination, NavLink, Carousel } from 'react-bootstrap';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { changePaginationProps, changeProductView } from '../actions/products-action';
-import { constants, countries, getAllCountriesUrl } from '../constants/constants';
+import { constants, countries, defaultScrollPosition, getAllCountriesUrl } from '../constants/constants';
 import axios from 'axios';
 import _ from "lodash";
 import PaginationComponent from './PaginationComponent';
@@ -18,8 +18,9 @@ function Home({ isSidebarVisible, ...props }) {
   let [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    console.log(isSidebarVisible)
+    console.log(isSidebarVisible);
     setCurrentPageValue(1);
+    defaultScrollPosition();
     axios.get(getAllCountriesUrl).then(({ data }) => {
       const totalPages = Math.ceil(data.length / pageLimit);
       props.setPaginationProps({ totalPages, data });
@@ -203,7 +204,7 @@ function Home({ isSidebarVisible, ...props }) {
                   }
                 }} />
               <div>
-                <p className='page-link ' style={{ border: 'none' }}>{constants.SHOWING} {currentPage} {constants.OF} {totalPages}</p>
+                <p className='page-link ' style={{ border: 'none' }}>{constants.SHOWING} {currentPage} {constants.OF.toLocaleLowerCase()} {totalPages} {constants.PAGES.toLocaleLowerCase()}</p>
               </div>
             </div>
           </div>
