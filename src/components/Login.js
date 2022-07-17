@@ -8,8 +8,9 @@ import './login.css'
 import { days, months, years, getAllCountriesUrl, formVariables, defaultScrollPosition } from '../constants/constants';
 import { updateUser } from '../actions/login-actions';
 import { changeProductView } from '../actions/products-action';
+import { setPageNotFoundComponent } from '../actions/general-actions';
 
-function Login({ user, isAdmin, isLoggedIn, setUserDetails, ...props }) {
+function Login({ user, isAdmin, isLoggedIn, setUserDetails, setPageNotFound, ...props }) {
   const Location = useLocation();
   let [uname, setUname] = useState('');
   let [password, setPassword] = useState('');
@@ -36,6 +37,7 @@ function Login({ user, isAdmin, isLoggedIn, setUserDetails, ...props }) {
 
   useEffect(() => {
     console.log(user && user, isLoggedIn, isAdmin);
+    setPageNotFound(false);
     defaultScrollPosition(0, 70);
     axios.get(getAllCountriesUrl).then(res => {
       const data = res.data;
@@ -271,6 +273,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setUserDetails: (obj) => {
       dispatch(updateUser(obj));
+    },
+    setPageNotFound: (value) => {
+      dispatch(setPageNotFoundComponent(value));
     }
   }
 };

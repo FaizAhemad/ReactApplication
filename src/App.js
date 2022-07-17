@@ -29,7 +29,7 @@ function App() {
     <BrowserRouter>
       <Fragment>
         <div style={{ position: "relative" }}>
-          <div id='scrollToTop' onClick={() => window.scrollTo(0, 0)} style={{ fontSize: '40px', position: "fixed", bottom: 70, right: 20, zIndex: 1 }}>&#128285;</div>
+          {/* <div id='scrollToTop' onClick={() => window.scrollTo(0, 0)} style={{ fontSize: '40px', position: "fixed", bottom: 70, right: 20, zIndex: 1 }}>&#128285;</div> */}
           <SocialLinks />
           <Header />
           <Container id='main'>

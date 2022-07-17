@@ -26,7 +26,8 @@ export const constants = {
     OF: 'Of',
     MY_CART: 'My cart',
     PAGES: 'Pages',
-    PAGE: 'Page'
+    PAGE: 'Page',
+    SET_PAGE_NOT_FOUND: 'SET_PAGE_NOT_FOUND'
 };
 
 export const formVariables = {
@@ -126,3 +127,29 @@ export const responsive = {
 };
 
 export const defaultScrollPosition = (x = 0, y = 0) => window.scrollTo(x, y);
+
+export const footerHeaderAndListVariables = {
+    GET_TO_KNOW_US: 'Get to Know Us',
+    ABOUT_US: 'About Us',
+    PRESS_RELEASES: 'Press Releases',
+    OUR_CARES: 'Our Cares',
+    GIFT_A_SMILE: 'Gift a Smile',
+    MAKE_MONEY_WITH_US: 'Make Money with Us',
+    SELL_ON_THIS_WEBSITE: 'Sell on this website',
+    SELL_UNDER_OUR_ACCELERATOR: 'Sell under Our Accelerator',
+    OUR_GLOBAL_SELLING: 'Our Global Selling',
+    BECOME_AN_AFFILIATE: 'Become an Affiliate',
+    FULFILMENT_BY_US: 'Fulfilment by Us',
+    ADVERTISE_YOUR_PRODUCT: 'Advertise Your Products',
+    LET_US_HELP_YOU: 'Let Us Help You',
+    COVID_19_AND_US: 'COVID-19 and US',
+    YOUR_ACCOUNT: 'Your Account',
+    RETURNS_CENTER: 'Returns Centre',
+    HUNDERED_PERCENT_PURCHACE_PROTECTION: '100% Purchase Protection',
+    APP_DOWNLOAD: 'App Download',
+    ASSISTANT_DOWNLOAD: 'Assistant Download',
+    HELP: 'Help',
+    BACK_TO_TOP: 'Back to top'
+};
+
+export const goToHome = (pathname='',navigate=()=>{}) => !(pathname === '/home' || pathname === '/') && navigate('/home');

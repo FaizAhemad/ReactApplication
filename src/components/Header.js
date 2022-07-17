@@ -7,7 +7,7 @@ import { changeProductView } from '../actions/products-action';
 import { hideSidebar, showSidebar } from '../actions/sidebar-actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faChevronRight, faUserCircle, faCartShopping } from '@fortawesome/free-solid-svg-icons';
-import { title, defaultBrandName, constants, navLinks } from '../constants/constants';
+import { title, defaultBrandName, constants, navLinks, goToHome } from '../constants/constants';
 
 function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible, setShowSidebar, setHideSidebar, ...props }) {
     let [searchQuery, setSearchquery] = useState('');
@@ -17,19 +17,14 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
     const navigate = useNavigate();
     const currentView = props.productView.productsReducer.productView;
     const totalItemsInMyCart = 0;
-
-    const goToHome = () => !(pathname === '/home' || pathname === '/') && navigate('/home');
-
     const closeNav = () => setExpanded(false);
-
     const expandNav = () => setExpanded(!expanded);
-
 
     return (
         <Fragment>
             <Navbar className='headerNavbar' bg="dark" variant="dark" expand="lg" fixed="top" onToggle={expandNav} expanded={expanded}>
                 <Container fluid>
-                    <Navbar.Brand ><Link className='brand' to="/">{brandName}</Link></Navbar.Brand>
+                    <Navbar.Brand ><Link className='brand' to="/home" onClick={() => goToHome(pathname, navigate)}>{brandName}</Link></Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" onClick={expandNav} />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav className="me-auto" >
@@ -50,9 +45,10 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                     style={{ borderRadius: '0px' }}
                                     onFocus={() => setSearchBoxFocus(true)}
                                     onBlur={() => setSearchBoxFocus(false)}
+                                    onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
 
                                 />
-                                <div className='header-search-box-close-btn' style={{ color: '#03A9F4', position: 'absolute', right: '0',top: '0', padding: '10px 10px 15px 10px'}}><FontAwesomeIcon style={{visibility:searchQuery?'visible':'hidden',cursor:'pointer'}} icon={faXmark} onClick={ ()=>setSearchquery('')} /></div>
+                                <div className='header-search-box-close-btn' style={{ color: '#03A9F4', position: 'absolute', right: '0', top: '0', padding: '10px 10px 15px 10px' }}><FontAwesomeIcon style={{ visibility: searchQuery ? 'visible' : 'hidden', cursor: 'pointer' }} icon={faXmark} onClick={() => setSearchquery('')} /></div>
                             </Form>
                         </Nav>
                         <Nav className="justify-content-end" >
@@ -100,16 +96,16 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                     <img src='chrome://branding/content/about-logo.png' alt='' style={{ height: '70px', width: '70px' }} />
                                 </div>
                                 <div style={{ overflowY: 'auto', height: '900px' }}>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" to={'/home'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" to={'/new'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" to={'/new1'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" to={'/new2'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" to={'/new4'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" to={'/new5'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" to={'/new6'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" to={'/new7'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" to={'/new8'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" to={'/new9'}>Home</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/home'}>Home</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new'}>Home</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new1'}>Home</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new2'}>Home</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new4'}>Home</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new5'}>Home</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new6'}>Home</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new7'}>Home</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new8'}>Home</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new9'}>Home</NavLink>
                                 </div>
                                 <div style={{ height: '100%' }}>
                                 </div>

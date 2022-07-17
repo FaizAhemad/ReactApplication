@@ -7,8 +7,9 @@ import axios from 'axios';
 import _ from "lodash";
 import PaginationComponent from './PaginationComponent';
 import { hideSidebar, showSidebar } from '../actions/sidebar-actions';
+import { setPageNotFoundComponent } from '../actions/general-actions';
 
-function Home({ isSidebarVisible, ...props }) {
+function Home({ isSidebarVisible, isPageNotFoundPage, setPageNotFound, ...props }) {
   const currentView = props.store.productsReducer.productView;
   const currentPage = props.store.productsReducer.pagination.currentPage;
   const pageLimit = 1;
@@ -18,13 +19,13 @@ function Home({ isSidebarVisible, ...props }) {
   let [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    console.log(isSidebarVisible);
+    setPageNotFound(false);
     setCurrentPageValue(1);
     defaultScrollPosition();
     axios.get(getAllCountriesUrl).then(({ data }) => {
       const totalPages = Math.ceil(data.length / pageLimit);
       props.setPaginationProps({ totalPages, data });
-    })
+    });
   }, []);
 
   let indexoflastpost = currentPage * pageLimit;
@@ -217,7 +218,8 @@ function Home({ isSidebarVisible, ...props }) {
 const mapStateToProps = (store) => {
   return {
     store: store,
-    isSidebarVisible: store.sidebarReducer.isSideBarVisible
+    isSidebarVisible: store.sidebarReducer.isSideBarVisible,
+    isPageNotFoundPage: store.generalReducer.isPageNotFoundComponent
   }
 };
 
@@ -234,6 +236,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     hideSidebar: () => {
       dispatch(hideSidebar());
+    },
+    setPageNotFound: (value) => {
+      dispatch(setPageNotFoundComponent(value));
     }
   }
 };

@@ -1,9 +1,12 @@
 import { useEffect } from "react";
 import { Container } from "react-bootstrap";
+import { connect } from "react-redux";
+import { setPageNotFoundComponent } from "../actions/general-actions";
 import { defaultScrollPosition } from "../constants/constants";
 
-function Contact() {
+function Contact({setPageNotFound,...props}) {
   useEffect(() => {
+    setPageNotFound(false);
     defaultScrollPosition();
   }, []);
   return (
@@ -11,4 +14,12 @@ function Contact() {
   )
 };
 
-export default Contact;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setPageNotFound: (value) => {
+      dispatch(setPageNotFoundComponent(value));
+    }
+  };
+};
+
+export default connect(null,mapDispatchToProps)(Contact);
