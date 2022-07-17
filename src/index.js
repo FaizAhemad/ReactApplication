@@ -7,11 +7,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './store';
+import ErrorBoundary from './components/ErrorBoundary';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </Provider>
   </StrictMode>
 );
