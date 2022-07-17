@@ -7,12 +7,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './store';
-import ErrorBoundary from './components/ErrorBoundary';
+import { ErrorBoundary } from 'react-error-boundary';
+import Fallback from './components/Fallback';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const errorHandler = (error, errorInfo) => {
+  console.log('Error>>>', error, errorInfo);
+}
 root.render(
   <StrictMode>
     <Provider store={store}>
-      <ErrorBoundary>
+      <ErrorBoundary FallbackComponent={Fallback} onError={errorHandler}>
         <App />
       </ErrorBoundary>
     </Provider>
