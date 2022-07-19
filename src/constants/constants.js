@@ -27,7 +27,8 @@ export const constants = {
     MY_CART: 'My cart',
     PAGES: 'Pages',
     PAGE: 'Page',
-    SET_PAGE_NOT_FOUND: 'SET_PAGE_NOT_FOUND'
+    SET_PAGE_NOT_FOUND: 'SET_PAGE_NOT_FOUND',
+    SET_LOGIN:'SET_LOGIN'
 };
 
 export const formVariables = {

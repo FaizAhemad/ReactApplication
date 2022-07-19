@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { useErrorHandler } from "react-error-boundary";
 import { connect } from "react-redux";
-import { setPageNotFoundComponent } from "../actions/general-actions";
 import { defaultScrollPosition } from "../constants/constants";
 
 
@@ -24,7 +23,6 @@ function Contact({setPageNotFound,...props}) {
       }
 
     }, 700);
-    setPageNotFound(false);
     defaultScrollPosition();
   });
   

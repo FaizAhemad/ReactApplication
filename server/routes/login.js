@@ -19,7 +19,7 @@ router.post('/login', async (req, res) => {
         let findUserByEmail = await sql.query(`select * from tbladmin where adminemail='${req.body.useremail}'`);
         let user = findUserByEmail.recordset[0];
         if (!user) {
-            res.status(404).json({ message: 'You are not registered with this email.' });
+            res.status(200).json({ message: 'You are not registered with this email.' , success: false });
         }
         else {
             if (req.body.password === user.adminpassword) {
@@ -33,11 +33,11 @@ router.post('/login', async (req, res) => {
                 });
             }
             else {
-                res.status(404).json({ message: 'You entered wrong password.', success: false });
+                res.status(200).json({ message: 'You entered wrong password.', success: false });
             }
         }
     } catch (error) {
-        res.status(404).json({ message: 'Something went wrong.', success: false });
+        res.status(200).json({ message: 'Something went wrong.', success: false });
         sql.close();
     }
 });

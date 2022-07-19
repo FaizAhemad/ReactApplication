@@ -8,6 +8,9 @@ function PageNotFound({ setPageNotFound, ...props }) {
   useEffect(() => {
     setPageNotFound(true);
     window.scrollTo(0, 160);
+    return () => {
+      setPageNotFound(false);
+    };
   }, []);
 
   return (

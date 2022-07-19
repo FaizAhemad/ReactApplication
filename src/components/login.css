@@ -1,3 +1,16 @@
-.text-muted.textError{
+.text-muted.textError {
     color: red !important;
+}
+
+#submitLoginButton:disabled {
+    cursor: not-allowed;
+    pointer-events: all !important
+}
+
+li.disabled {
+    cursor: not-allowed
+}
+
+li.disabled a {
+    pointer-events: none
 }

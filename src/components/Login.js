@@ -7,9 +7,9 @@ import './login.css'
 import { days, months, years, getAllCountriesUrl, formVariables, defaultScrollPosition, validEmail, validPassword } from '../constants/constants';
 import { login } from '../actions/login-actions';
 import { changeProductView } from '../actions/products-action';
-import { setPageNotFoundComponent } from '../actions/general-actions';
+import { setLoginComponent } from '../actions/general-actions';
 
-function Login({ user, isAdmin, isLoggedIn, funcLogin, setPageNotFound, ...props }) {
+function Login({ user, isAdmin, isLoggedIn, funcLogin, setLoginComponent, ...props }) {
   const Location = useLocation();
   let [pathname, setPathname] = useState(Location.pathname);
   let [useremail, setUserEmail] = useState('');
@@ -31,14 +31,21 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setPageNotFound, ...props
   let [country, setCountry] = useState();
   let [countriesInfo, setCountriesInfo] = useState([{ name: { common: 'Loading Countries...' } }]);
   let [address, setAddress] = useState();
+  let [loginErrorMessage, setLoginErrorMessage] = useState('');
+
   let dys = days;
   let mths = months;
   let yrs = years;
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    setPageNotFound(false);
-    defaultScrollPosition(0, 70);
+    setLoginComponent(true);
+    defaultScrollPosition(0, 80);
+
+    return () => {
+      setLoginComponent(false);
+    };
   }, []);
 
   useEffect(() => {
@@ -50,19 +57,21 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setPageNotFound, ...props
     }
   }, [pathname]);
 
-
   const submitLogin = (e) => {
     e.preventDefault();
     if (!useremail) {
-      setuNameValidationError('Please enter your email or username');
+      setuNameValidationError('Please enter your email');
     }
     else if (!password) {
       setpasswordValidationError('Please enter your password');
     }
+    else if (unameValidationError || passwordValidationError) {
+      return
+    }
     else {
       axios.post('http://localhost:5000/api/login', { useremail, password })
         .then(res => {
-          const { success, id, email, name, gender } = res.data;
+          const { success, id, email, name, gender, message } = res.data;
           if (success) {
             funcLogin({
               isLoggedIn: true,
@@ -74,6 +83,7 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setPageNotFound, ...props
             navigate('/home');
           }
           else {
+            setLoginErrorMessage(message);
             funcLogin({
               isLoggedIn: false,
               id: null,
@@ -85,7 +95,6 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setPageNotFound, ...props
         })
         .catch(err => console.log(err));
     }
-
   };
 
   const submitRegisterationForm = (e) => {
@@ -100,6 +109,7 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setPageNotFound, ...props
           <Form.Group className='mb-3' controlId='formBasicEmail'>
             <Form.Label>Email address</Form.Label>
             <Form.Control type='email' placeholder={formVariables.ENTER_YOUR_EMAIL} onChange={(e) => {
+              setLoginErrorMessage('');
               if (e.target.value === '') {
                 setuNameValidationError('');
               }
@@ -119,6 +129,7 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setPageNotFound, ...props
           <Form.Group className='mb-3' controlId='formBasicPassword'>
             <Form.Label>{formVariables.PASSWORD}</Form.Label>
             <Form.Control type='password' placeholder={formVariables.ENTER_YOUR_PASSWORD} onChange={(e) => {
+              setLoginErrorMessage('');
               if (e.target.value === '') {
                 setpasswordValidationError('');
               }
@@ -136,12 +147,15 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setPageNotFound, ...props
             <Form.Check type='checkbox' label={formVariables.REMEMBER_ME} />
           </Form.Group>
           <Form.Group>
-            <Form.Text className='text-muted'><Link to='/resetpassword' style={{ color: 'red' }}>{formVariables.FORGOT_PASSWORD}</Link> </Form.Text>
+            <Form.Text className='text-muted'><Link to='/resetpassword' style={{ color: 'red' }}>{loginErrorMessage && formVariables.FORGOT_PASSWORD}</Link> </Form.Text>
           </Form.Group>
           <Form.Group className='mb-3'>
             <Form.Text className='text-muted'>{formVariables.NOT_REGISTERED_YET} <br /> {formVariables.CLICK.toLocaleLowerCase()} <Link to='/register' onClick={() => { defaultScrollPosition(0, 70); setPathname('/register') }}>{formVariables.HERE.toLocaleLowerCase()}</Link> {formVariables.TO.toLocaleLowerCase()} {formVariables.CREATE_A_NEW_ACCOUNT.toLocaleLowerCase()}.</Form.Text>
           </Form.Group>
-          <Button variant='primary' type='submit' onClick={submitLogin}>
+          <Form.Group className='mb-3'>
+            <Form.Text className='text-muted textError'>{loginErrorMessage ? loginErrorMessage : ''}</Form.Text>
+          </Form.Group>
+          <Button variant='primary' id='submitLoginButton' type='submit' title={(unameValidationError || passwordValidationError || loginErrorMessage) && 'Form is invalid'} disabled={unameValidationError || passwordValidationError || loginErrorMessage} onClick={submitLogin}>
             {formVariables.LOGIN}
           </Button>
         </Form>
@@ -320,8 +334,8 @@ const mapDispatchToProps = (dispatch) => {
     funcLogin: (obj) => {
       dispatch(login(obj));
     },
-    setPageNotFound: (value) => {
-      dispatch(setPageNotFoundComponent(value));
+    setLoginComponent: (value) => {
+      dispatch(setLoginComponent(value))
     }
   }
 };

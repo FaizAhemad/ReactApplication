@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setPageNotFoundComponent } from "../actions/general-actions";
 import { logout, updateUser } from "../actions/login-actions";
 import { defaultScrollPosition } from "../constants/constants";
 

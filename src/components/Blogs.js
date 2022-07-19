@@ -1,12 +1,10 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { setPageNotFoundComponent } from "../actions/general-actions";
 import { defaultScrollPosition } from "../constants/constants";
 
 function Blogs({ setPageNotFound }) {
 
   useEffect(() => {
-    setPageNotFound(false);
     defaultScrollPosition();
   }, []);
 

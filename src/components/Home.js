@@ -7,7 +7,6 @@ import axios from 'axios';
 import _ from "lodash";
 import PaginationComponent from './PaginationComponent';
 import { hideSidebar, showSidebar } from '../actions/sidebar-actions';
-import { setPageNotFoundComponent } from '../actions/general-actions';
 import img2 from '../images/header-PC2.jpg'
 import img3 from '../images/header-PC3.jpg'
 import Contact from './Contact';
@@ -21,7 +20,6 @@ function Home({ isSidebarVisible, isPageNotFoundPage, setPageNotFound, ...props 
   const [currentPageValue, setCurrentPageValue] = useState("");
   let [offset, setOffset] = useState(0);
   useEffect(() => {
-    setPageNotFound(false);
     setCurrentPageValue(1);
     defaultScrollPosition();
     axios.get(getAllCountriesUrl).then(({ data }) => {
@@ -225,9 +223,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     hideSidebar: () => {
       dispatch(hideSidebar());
-    },
-    setPageNotFound: (value) => {
-      dispatch(setPageNotFoundComponent(value));
     }
   }
 };

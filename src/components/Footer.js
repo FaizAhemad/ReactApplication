@@ -1,15 +1,9 @@
 import { useEffect } from 'react';
 import { Navbar, Nav } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { setPageNotFoundComponent } from '../actions/general-actions';
 import { constants, defaultScrollPosition, footerHeaderAndListVariables } from '../constants/constants';
 
-function Footer({isPageNotFoundPage,...props}) {
-
-    useEffect(() => {
-        
-        
-    }, []);
+function Footer({ isPageNotFoundPage, isLoginPage, ...props }) {
 
     const { DEVELOPED_BY } = constants;
     const { GET_TO_KNOW_US, ABOUT_US, PRESS_RELEASES, OUR_CARES, GIFT_A_SMILE, MAKE_MONEY_WITH_US, SELL_ON_THIS_WEBSITE, SELL_UNDER_OUR_ACCELERATOR, OUR_GLOBAL_SELLING
@@ -17,14 +11,12 @@ function Footer({isPageNotFoundPage,...props}) {
     return (
         <Navbar className='footer mainFooter' bg="dark" variant="dark" style={{ zIndex: 1, display: 'flex', flexDirection: 'column', flexWrap: 'wrap', paddingTop: '0' }}>
             <div style={{ height: '60px', padding: '10px 0', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-                <span id='footerBackToTop' onClick={() => isPageNotFoundPage?defaultScrollPosition(0, 160):defaultScrollPosition()}>{BACK_TO_TOP}</span>
+                <span id='footerBackToTop' onClick={() => isPageNotFoundPage ? defaultScrollPosition(0, 160) : isLoginPage ? defaultScrollPosition(0, 80) : defaultScrollPosition()}>{BACK_TO_TOP}</span>
             </div>
-
             <div className="navFooterVerticalRow navAccessibility" style={{ display: "flex", flexWrap: 'wrap', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%', paddingTop: '40px' }}>
                 <div className="navFooterLinkCol navAccessibility">
                     <ul>
                         <div className="navFooterColHead" style={{ color: 'white', fontWeight: '600' }}>{ABOUT_US}</div>
-
                         <li>
                             <a href="https://www.aboutamazon.in/?utm_source=gateway&amp;utm_medium=footer" className="nav_a">{ABOUT_US}</a>
                         </li>
@@ -40,7 +32,6 @@ function Footer({isPageNotFoundPage,...props}) {
                         <li>
                             <a href="/gp/browse.html?node=4594605031&amp;ref_=footer_smile" className="nav_a">{GIFT_A_SMILE}</a>
                         </li>
-
                     </ul>
                 </div>
 
@@ -110,17 +101,9 @@ function Footer({isPageNotFoundPage,...props}) {
 const mapStateToProps = (store) => {
     return {
         isSidebarVisible: store.sidebarReducer.isSideBarVisible,
-        isPageNotFoundPage: store.generalReducer.isPageNotFoundComponent
-
+        isPageNotFoundPage: store.generalReducer.isPageNotFoundComponent,
+        isLoginPage: store.generalReducer.isLoginComponent
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setPageNotFound: (value) => {
-            dispatch(setPageNotFoundComponent(value));
-        }
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export default connect(mapStateToProps, null)(Footer);

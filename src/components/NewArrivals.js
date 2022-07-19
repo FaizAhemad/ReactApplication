@@ -10,12 +10,10 @@ import img5 from '../images/Today\'sDeal/5.jpg';
 import img6 from '../images/Today\'sDeal/6.jpg';
 import img7 from '../images/Today\'sDeal/7.jpg';
 import { connect } from "react-redux";
-import { setPageNotFoundComponent } from "../actions/general-actions";
 
 function NewArrivals({ setPageNotFound, ...props }) {
 
     useEffect(() => {
-        setPageNotFound(false);
         defaultScrollPosition();
     }, []);
 
@@ -242,9 +240,7 @@ function NewArrivals({ setPageNotFound, ...props }) {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setPageNotFound: (value) => {
-            dispatch(setPageNotFoundComponent(value));
-        }
+       
     };
 };
 
