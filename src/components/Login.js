@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { Form, Button, FloatingLabel } from 'react-bootstrap';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
 import './login.css'
-import { days, months, years, getAllCountriesUrl, formVariables, defaultScrollPosition } from '../constants/constants';
-import { updateUser } from '../actions/login-actions';
+import { days, months, years, getAllCountriesUrl, formVariables, defaultScrollPosition, validEmail, validPassword } from '../constants/constants';
+import { login } from '../actions/login-actions';
 import { changeProductView } from '../actions/products-action';
 import { setPageNotFoundComponent } from '../actions/general-actions';
 
-function Login({ user, isAdmin, isLoggedIn, setUserDetails, setPageNotFound, ...props }) {
+function Login({ user, isAdmin, isLoggedIn, funcLogin, setPageNotFound, ...props }) {
   const Location = useLocation();
-  let [uname, setUname] = useState('');
+  let [pathname, setPathname] = useState(Location.pathname);
+  let [useremail, setUserEmail] = useState('');
   let [password, setPassword] = useState('');
   let [unameValidationError, setuNameValidationError] = useState('');
   let [passwordValidationError, setpasswordValidationError] = useState('');
@@ -34,55 +34,101 @@ function Login({ user, isAdmin, isLoggedIn, setUserDetails, setPageNotFound, ...
   let dys = days;
   let mths = months;
   let yrs = years;
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(user && user, isLoggedIn, isAdmin);
     setPageNotFound(false);
     defaultScrollPosition(0, 70);
-    axios.get(getAllCountriesUrl).then(res => {
-      const data = res.data;
-      setCountriesInfo(data)
-    });
-    // setUserDetails({isLoggedIn:true});
   }, []);
 
+  useEffect(() => {
+    if (pathname === '/register') {
+      axios.get(getAllCountriesUrl).then(res => {
+        const data = res.data;
+        setCountriesInfo(data);
+      });
+    }
+  }, [pathname]);
 
-  const submitLogin = () => {
-    if (!uname) {
+
+  const submitLogin = (e) => {
+    e.preventDefault();
+    if (!useremail) {
       setuNameValidationError('Please enter your email or username');
     }
     else if (!password) {
       setpasswordValidationError('Please enter your password');
     }
-    axios.get('http://localhost:5000/api/login', { timeout: 2000 }).then(res => {
-      console.log(res)
-    })
-      .catch(err => console.log('error'));
+    else {
+      axios.post('http://localhost:5000/api/login', { useremail, password })
+        .then(res => {
+          const { success, id, email, name, gender } = res.data;
+          if (success) {
+            funcLogin({
+              isLoggedIn: true,
+              id,
+              email,
+              name,
+              gender
+            });
+            navigate('/home');
+          }
+          else {
+            funcLogin({
+              isLoggedIn: false,
+              id: null,
+              email: '',
+              name: '',
+              gender: ''
+            });
+          }
+        })
+        .catch(err => console.log(err));
+    }
+
   };
 
-  const submitRegisterationForm = () => {
+  const submitRegisterationForm = (e) => {
+    e.preventDefault();
   };
 
   if (Location.pathname === '/login') {
     return (
       <div className='loginRegComponentContainer' style={{ margin: '200px 0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Form autoComplete='off' style={{ width: '350px' }}>
+        <Form autoComplete="off" style={{ width: '350px' }}>
           <h3>Login</h3>
           <Form.Group className='mb-3' controlId='formBasicEmail'>
             <Form.Label>Email address</Form.Label>
             <Form.Control type='email' placeholder={formVariables.ENTER_YOUR_EMAIL} onChange={(e) => {
-              setUname(e.target.value);
-              setuNameValidationError('');
-            }} value={uname} />
-            {/* <Form.Text className={unameValidationError ? 'text-muted textError' : 'text-muted'} >
+              if (e.target.value === '') {
+                setuNameValidationError('');
+              }
+              else if (!validEmail.test(e.target.value)) {
+                setuNameValidationError('Email is not valid');
+              }
+              else {
+                setuNameValidationError('');
+              }
+              setUserEmail(e.target.value);
+
+            }} value={useremail} />
+            <Form.Text className={unameValidationError ? 'text-muted textError' : 'text-muted'} >
               {unameValidationError ? unameValidationError : formVariables.WE_WILL_NEVER_SHARE_YOUR_EMAIL_WITH_ANYONE_ELSE}
-            </Form.Text> */}
+            </Form.Text>
           </Form.Group>
           <Form.Group className='mb-3' controlId='formBasicPassword'>
             <Form.Label>{formVariables.PASSWORD}</Form.Label>
             <Form.Control type='password' placeholder={formVariables.ENTER_YOUR_PASSWORD} onChange={(e) => {
+              if (e.target.value === '') {
+                setpasswordValidationError('');
+              }
+              else if (!validPassword.test(e.target.value)) {
+                setpasswordValidationError('Password is not valid');
+              }
+              else {
+                setpasswordValidationError('');
+              }
               setPassword(e.target.value);
-              setpasswordValidationError('');
             }} value={password} />
             <Form.Text className='text-muted textError'>{passwordValidationError}</Form.Text>
           </Form.Group>
@@ -93,9 +139,9 @@ function Login({ user, isAdmin, isLoggedIn, setUserDetails, setPageNotFound, ...
             <Form.Text className='text-muted'><Link to='/resetpassword' style={{ color: 'red' }}>{formVariables.FORGOT_PASSWORD}</Link> </Form.Text>
           </Form.Group>
           <Form.Group className='mb-3'>
-            <Form.Text className='text-muted'>{formVariables.NOT_REGISTERED_YET} <br /> {formVariables.CLICK.toLocaleLowerCase()} <Link to='/register' onClick={() => defaultScrollPosition(0, 70)}>{formVariables.HERE.toLocaleLowerCase()}</Link> {formVariables.TO.toLocaleLowerCase()} {formVariables.CREATE_A_NEW_ACCOUNT.toLocaleLowerCase()}.</Form.Text>
+            <Form.Text className='text-muted'>{formVariables.NOT_REGISTERED_YET} <br /> {formVariables.CLICK.toLocaleLowerCase()} <Link to='/register' onClick={() => { defaultScrollPosition(0, 70); setPathname('/register') }}>{formVariables.HERE.toLocaleLowerCase()}</Link> {formVariables.TO.toLocaleLowerCase()} {formVariables.CREATE_A_NEW_ACCOUNT.toLocaleLowerCase()}.</Form.Text>
           </Form.Group>
-          <Button variant='primary' type='button' onClick={submitLogin}>
+          <Button variant='primary' type='submit' onClick={submitLogin}>
             {formVariables.LOGIN}
           </Button>
         </Form>
@@ -247,7 +293,7 @@ function Login({ user, isAdmin, isLoggedIn, setUserDetails, setPageNotFound, ...
               <Form.Text className='text-muted'>{formVariables.ALREADY_HAVE_AN_ACCOUNT} {formVariables.CLICK.toLocaleLowerCase()} <Link to='/login' onClick={() => defaultScrollPosition(0, 70)}>{formVariables.HERE.toLocaleLowerCase()}</Link> {formVariables.TO} {formVariables.LOGIN.toLocaleLowerCase()}.</Form.Text>
             </Form.Group>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Button variant='success' type='button' onClick={submitRegisterationForm}>
+              <Button variant='success' type='submit' onClick={submitRegisterationForm}>
                 {formVariables.CREATE_YOUR_ACCOUNT}
               </Button>
             </div>
@@ -261,8 +307,8 @@ function Login({ user, isAdmin, isLoggedIn, setUserDetails, setPageNotFound, ...
 const mapStateToProps = (store) => {
   return {
     user: store.loginReducer.user,
-    isAdmin: store.loginReducer.isAdmin,
-    isLoggedIn: store.loginReducer.isLoggedIn
+    isAdmin: store.loginReducer.user.isAdmin,
+    isLoggedIn: store.loginReducer.user.isLoggedIn
   }
 };
 
@@ -271,8 +317,8 @@ const mapDispatchToProps = (dispatch) => {
     changeProductViewDispatch: (view) => {
       dispatch(changeProductView(view));
     },
-    setUserDetails: (obj) => {
-      dispatch(updateUser(obj));
+    funcLogin: (obj) => {
+      dispatch(login(obj));
     },
     setPageNotFound: (value) => {
       dispatch(setPageNotFoundComponent(value));

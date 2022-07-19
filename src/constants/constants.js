@@ -67,7 +67,7 @@ export const formVariables = {
 
 export const ProductStrings = {
     TODAYS_DEAL: 'Today\'s Deal'
-}
+};
 
 export const navLinks = {
     HOME: 'Home',
@@ -152,4 +152,24 @@ export const footerHeaderAndListVariables = {
     BACK_TO_TOP: 'Back to top'
 };
 
-export const goToHome = (pathname='',navigate=()=>{}) => !(pathname === '/home' || pathname === '/') && navigate('/home');
+export const goToHome = (pathname = '', navigate = () => { }) => !(pathname === '/home' || pathname === '/') && navigate('/home');
+
+export const setObjectValues = (objToSet, currentObject) => {
+    let obj = {};
+    Object.keys(objToSet).forEach(propKey => {
+        Object.keys(currentObject).forEach(stateKey => {
+            if (propKey === stateKey) {
+                if (objToSet[propKey] != currentObject[stateKey]) {
+                    currentObject[stateKey] = objToSet[propKey]
+                }
+            }
+        });
+    });
+    return currentObject;
+};
+
+export const validEmail = new RegExp(
+    '^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
+);
+
+export const validPassword = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);

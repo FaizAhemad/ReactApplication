@@ -2,43 +2,32 @@ import { logout } from "../actions/login-actions";
 import { constants } from "../constants/constants";
 
 let { LOGIN, LOGOUT, IS_ADMIN, UPDATE_USER_DETAILS } = constants;
-
 const initialState = {
-
-    isAdmin: false,
-    isLoggedIn: false,
-    user: {},
-
-}
-
+    user: { isLoggedIn: true, isAdmin: false }
+};
 const loginReducer = (state = initialState, action) => {
-
     switch (action.type) {
         case LOGIN:
             return {
                 ...state,
-                userId: action.payload.userId,
-                isLoggedIn: true,
-                isAdmin: true,
                 user: {
-                    userId: action.userId
+                    id: action.payload.id,
+                    email: action.payload.email,
+                    gender: action.payload.gender,
+                    name: action.payload.name,
+                    isAdmin: state.user.isAdmin,
+                    isLoggedIn: action.payload.isLoggedIn
                 }
+            };
+        case LOGOUT: return {
+            user: {
+                ...initialState.user,
+                isLoggedIn: false
             }
-        case UPDATE_USER_DETAILS:
-            return {
-                ...state,
-                isLoggedIn: true,
-                isAdmin: true,
-                user: {
-                    userId: action.userId
-                }
-            }
+        };
         default:
-            return state
+            return state;
     }
+};
 
-}
-
-
-
-export default loginReducer
+export default loginReducer;

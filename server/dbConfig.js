@@ -3,7 +3,7 @@ const  config = {
     user:  'sa', // sql user
     password:  'Teton2021!', //sql user password
     server:  'DESKTOP-989ILTG', // if it does not work try- localhost
-    database:  'shoeMarket',
+    database:  'shop',
     options: {
       trustedconnection:  true,
       trustServerCertificate: true,

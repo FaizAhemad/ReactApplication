@@ -1,4 +1,4 @@
-import { constants } from "../constants/constants";
+import { constants, setObjectValues } from "../constants/constants";
 
 let initialState = {
     productView: 'column',
@@ -9,52 +9,34 @@ let initialState = {
         currentPage: 1,
         pageLimit: 10,
         totalPages: 0,
-        offset: 0,
+        offset: 0
     }
-}
+};
 
 
-const setObjectValues = (paginationProp,currPaginationState) => {
-    
-    let obj ={};
-    Object.keys (paginationProp).forEach(propKey => {
-        Object.keys(currPaginationState).forEach(stateKey => {
-            if(propKey === stateKey ){
-                if(paginationProp[propKey] != currPaginationState[stateKey]){
-                    currPaginationState[stateKey] = paginationProp[propKey]
-                }
-            }
-        });
-    });
-    console.log(currPaginationState)
-    return currPaginationState;
-   
-}
+
+
 const productsReducer = (state = initialState, action) => {
-    const { CHANGE_PRODUCT_VIEW, FETCH_PAGINATION ,SET_PAGINATION_PROPS} = constants;
-
+    const { CHANGE_PRODUCT_VIEW, FETCH_PAGINATION, SET_PAGINATION_PROPS } = constants;
     switch (action.type) {
-
         case CHANGE_PRODUCT_VIEW:
             return {
                 ...state,
                 productView: action.view
-            }
+            };
         case CHANGE_PRODUCT_VIEW:
             return {
                 ...state,
                 products: action.products
-            }
+            };
         case SET_PAGINATION_PROPS:
-            
             return {
                 ...state,
-                pagination:setObjectValues(action.props, state.pagination)
-            }
-
+                pagination: setObjectValues(action.props, state.pagination)
+            };
         default:
-            return state
-    }
-}
+            return state;
+    };
+};
 
-export default productsReducer
+export default productsReducer;

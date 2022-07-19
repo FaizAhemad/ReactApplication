@@ -20,7 +20,6 @@ function Home({ isSidebarVisible, isPageNotFoundPage, setPageNotFound, ...props 
   const data = props.store.productsReducer.pagination.data;
   const [currentPageValue, setCurrentPageValue] = useState("");
   let [offset, setOffset] = useState(0);
-
   useEffect(() => {
     setPageNotFound(false);
     setCurrentPageValue(1);
@@ -42,8 +41,6 @@ function Home({ isSidebarVisible, isPageNotFoundPage, setPageNotFound, ...props 
   return (
     <>
       <Container style={{ margin: '120px 0px 0px 0px' }}>
-
-        <Contact person={{}}/>
         <Carousel
           controls={false}
           // activeIndex={2}
@@ -210,7 +207,8 @@ const mapStateToProps = (store) => {
   return {
     store: store,
     isSidebarVisible: store.sidebarReducer.isSideBarVisible,
-    isPageNotFoundPage: store.generalReducer.isPageNotFoundComponent
+    isPageNotFoundPage: store.generalReducer.isPageNotFoundComponent,
+    user: store.loginReducer.user
   }
 };
 

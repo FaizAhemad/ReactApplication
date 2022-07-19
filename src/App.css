@@ -136,9 +136,12 @@
 .header-right-nav {
   color: white !important;
   background-color: transparent !important;
-  padding: 0px !important;
-  height: 25px;
+  padding-top: 10px;
   border-bottom: 5px solid transparent
+}
+
+.header-right-nav:hover {
+  border-bottom: 5px solid #0073B1
 }
 
 #header-search-box {
@@ -150,7 +153,6 @@
 }
 
 .header-right-nav.active {
-  line-height: 15px;
   border-bottom: 5px solid #03A9F4;
   border-bottom-width: thick
 }
@@ -178,27 +180,25 @@
   cursor: pointer;
   padding: 5px 10px;
   transition: all .7s;
-  font-weight: 600;
+  font-weight: 600
 }
 
 #footerBackToTop:hover {
   color: lightgreen;
   font-weight: 600;
   border: 2px solid #03A9F4;
-  transition: all .7s;
+  transition: all .7s
 }
-
 
 .footer .nav_a {
   color: lightgrey !important;
   text-decoration: none;
-  border-bottom: 3px solid transparent;
+  border-bottom: 3px solid transparent
 }
 
 .footer .nav_a:hover {
   color: white !important;
-
-  border-bottom: 3px solid green;
+  border-bottom: 3px solid green
 }
 
 .selectCustomHeight .dropdown-menu {
@@ -276,12 +276,12 @@ form {
   border-bottom-left-radius: 5px !important;
   border-radius: 10px;
   transition: all .9s;
-  opacity: .1;
+  opacity: .1
 }
 
 .react-multiple-carousel__arrow--left:hover {
   opacity: .7;
-  transition: all .9s;
+  transition: all .9s
 }
 
 .react-multiple-carousel__arrow--right {
@@ -291,17 +291,16 @@ form {
   border-bottom-right-radius: 5px !important;
   border-radius: 10px;
   transition: all .9s;
-  opacity: .1;
+  opacity: .1
 }
 
 .react-multiple-carousel__arrow--right:hover {
   opacity: .7;
-  transition: all .9s;
+  transition: all .9s
 }
-
 
 @media screen and (max-width:991px) {
   #gridListViewButton {
-    display: none;
+    display: none
   }
 }

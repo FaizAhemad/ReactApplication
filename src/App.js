@@ -16,17 +16,19 @@ import MyOrders from './components/MyOrders';
 import PageNotFound from './components/PageNotFound';
 import Categories from './components/Categories';
 import NewArrivals from './components/NewArrivals';
+import { ErrorBoundary } from 'react-error-boundary';
+import Fallback from './components/Fallback';
+import ErrorModal from './components/Modal/ErrorModal';
+import Logout from './components/Logout';
+
+const errorHandler = (error, errorInfo) => {
+  console.log('Error>>>', error, errorInfo);
+}
 
 function App() {
-
-  // useEffect(() => {
-  //   window.addEventListener('resize',()=>{
-  //     console.log(window.screen.availWidth);
-
-  //   })
-  // });
   return (
     <BrowserRouter>
+    {/* <ErrorBoundary FallbackComponent={ErrorModal} onError={errorHandler}> */}
       <Fragment>
         <div style={{ position: "relative" }}>
           {/* <div id='scrollToTop' onClick={() => window.scrollTo(0, 0)} style={{ fontSize: '40px', position: "fixed", bottom: 70, right: 20, zIndex: 1 }}>&#128285;</div> */}
@@ -39,6 +41,7 @@ function App() {
               <Route path='/categories' element={<Categories />} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Login />} />
+              <Route path='/logout' element={<Logout />} />
               <Route path='/mycart' element={<MyCart />} />
               <Route path='/myorders' element={<MyOrders />} />
               <Route path='/contact' element={<Contact />} />
@@ -49,6 +52,7 @@ function App() {
           <Footer />
         </div>
       </Fragment>
+      {/* </ErrorBoundary> */}
     </BrowserRouter>
   );
 }

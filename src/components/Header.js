@@ -15,7 +15,7 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
     let [isSearchBoxFocused, setSearchBoxFocus] = useState(false);
     const { pathname } = useLocation();
     const navigate = useNavigate();
-    const currentView = props.productView.productsReducer.productView;
+    const currentView = props.store.productsReducer.productView;
     const totalItemsInMyCart = 0;
     const closeNav = () => setExpanded(false);
     const expandNav = () => setExpanded(!expanded);
@@ -52,12 +52,12 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                             </Form>
                         </Nav>
                         <Nav className="justify-content-end" >
-                            <NavLink onClick={closeNav} className='nav-link header-right-nav' to="/myorders">{navLinks.RETURNS_AND_ORDERS}</NavLink>
+                            <NavLink onClick={closeNav} className='nav-link header-right-nav' to="/myorders" >{navLinks.RETURNS_AND_ORDERS}</NavLink>
                             {/* <NavLink onClick={closeNav} className='nav-link' activeclassname="is-active" to="/login">Login</NavLink>
                                 <NavLink onClick={closeNav} className='nav-link' activeclassname="is-active" to="/register">Register</NavLink> */}
-                            <NavLink to={'/myCart'} style={{ position: 'relative', padding: '0 20px' }}>
-                                <span style={{ display: 'flex', width: totalItemsInMyCart < 10 ? '20px' : '25px', fontSize: '10px', color: 'white', fontWeight: 'bold', height: totalItemsInMyCart < 10 ? '20px' : '25px', borderRadius: '50%', top: '-10px', right: totalItemsInMyCart < 10 ? '10px' : '10px', border: '1px solid red', position: 'absolute', background: 'red', justifyContent: 'center', alignItems: 'center' }}>
-                                    {totalItemsInMyCart > 99 ? totalItemsInMyCart + '+' : totalItemsInMyCart}
+                            <NavLink to={'/myCart'} style={{ position: 'relative', padding: '10px 15px' }}>
+                                <span style={{ display: 'flex', width: totalItemsInMyCart < 10 ? '20px' : '22px', fontSize: totalItemsInMyCart > 99 ? '9px' : '10px', color: 'white', fontWeight: 'bold', height: totalItemsInMyCart < 10 ? '20px' : '22px', borderRadius: '50%', top: '0px', right: '10px', border: '1px solid red', position: 'absolute', background: 'red', justifyContent: 'center', alignItems: 'center' }}>
+                                    {totalItemsInMyCart > 99 ? 99 + '+' : totalItemsInMyCart < 0 ? 0 : totalItemsInMyCart}
                                 </span>
                                 <FontAwesomeIcon
                                     title={constants.MY_CART}
@@ -66,6 +66,10 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                         color: pathname === '/myCart' ? '#03A9F4' : 'gainsboro'
                                     }} icon={faCartShopping} />
                             </NavLink>
+                            {
+                                isLoggedIn &&
+                                <NavLink onClick={closeNav} className='nav-link' activeclassname="is-active" to="/logout">Logout</NavLink>
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -91,7 +95,7 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                     <FontAwesomeIcon icon={faUserCircle} />
                                     <Link to={'/login'} onClick={() => {
                                         setHideSidebar()
-                                    }}> <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>Hello{isLoggedIn ? <>&nbsp;</> : ', Sign in'}{isLoggedIn && <span style={{ width: '60%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', display: 'inline-block' }} title={currentUser}>{currentUser}</span>}</h3></Link></li>
+                                    }}> <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>Hello{isLoggedIn ? <>&nbsp;</> : ', Sign in'}{isLoggedIn && <span style={{ width: '60%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', display: 'inline-block' }} title={currentUser && currentUser}>{currentUser && currentUser}</span>}</h3></Link></li>
                                 <div style={{ height: '130px', boxSizing: 'border-box', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <img src='chrome://branding/content/about-logo.png' alt='' style={{ height: '70px', width: '70px' }} />
                                 </div>
@@ -120,8 +124,7 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
 };
 
 Header.defaultProps = {
-    brandName: defaultBrandName.name,
-    currentUser: 'faiz Ahemad'
+    brandName: defaultBrandName.name
 };
 
 Header.propTypes = {
@@ -130,9 +133,10 @@ Header.propTypes = {
 
 const mapStateToProps = (store) => {
     return {
-        productView: store,
-        isAdmin: store.loginReducer.isAdmin,
-        isLoggedIn: store.loginReducer.isLoggedIn,
+        store: store,
+        isAdmin: store.loginReducer.user.isAdmin,
+        currentUser: store.loginReducer.user.name,
+        isLoggedIn: !!store.loginReducer.user.isLoggedIn,
         isSidebarVisible: store.sidebarReducer.isSideBarVisible
     }
 };
