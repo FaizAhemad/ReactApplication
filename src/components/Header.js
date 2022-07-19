@@ -93,9 +93,10 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                             <div style={{ height: '100%', width: '250px', border: '2px solid red', background: '#4EA3AB', overflowY: 'auto', paddingBottom: '200px' }}>
                                 <li className='fixedLiBgColor'>
                                     <FontAwesomeIcon icon={faUserCircle} />
-                                    <Link to={'/login'} onClick={() => {
-                                        setHideSidebar()
-                                    }}> <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>Hello{isLoggedIn ? <>&nbsp;</> : ', Sign in'}{isLoggedIn && <span style={{ width: '60%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', display: 'inline-block' }} title={currentUser && currentUser}>{currentUser && currentUser}</span>}</h3></Link></li>
+                                    <Link to={isLoggedIn ? '/home' : '/login'} onClick={() => {
+                                        setHideSidebar();
+                                    }}>
+                                        <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>Hello{isLoggedIn ? <>&nbsp;</> : ', Sign in'}{isLoggedIn && <span style={{ width: '60%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', display: 'inline-block' }} title={currentUser && currentUser}>{currentUser && currentUser}</span>}</h3></Link></li>
                                 <div style={{ height: '130px', boxSizing: 'border-box', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <img src='chrome://branding/content/about-logo.png' alt='' style={{ height: '70px', width: '70px' }} />
                                 </div>

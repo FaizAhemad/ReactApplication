@@ -40,9 +40,11 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setLoginComponent, ...pro
   const navigate = useNavigate();
 
   useEffect(() => {
+    if(isLoggedIn){
+      navigate('/home');
+    }
     setLoginComponent(true);
     defaultScrollPosition(0, 80);
-
     return () => {
       setLoginComponent(false);
     };
@@ -322,8 +324,7 @@ const mapStateToProps = (store) => {
   return {
     user: store.loginReducer.user,
     isAdmin: store.loginReducer.user.isAdmin,
-    isLoggedIn: store.loginReducer.user.isLoggedIn
-  }
+    isLoggedIn: !!store.loginReducer.user.isLoggedIn,  }
 };
 
 const mapDispatchToProps = (dispatch) => {
