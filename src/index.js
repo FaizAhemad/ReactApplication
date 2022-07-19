@@ -1,25 +1,21 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { connect, Provider } from 'react-redux';
-
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import store from './store';
+import store, { Persistor } from './store';
 import { ErrorBoundary } from 'react-error-boundary';
-import Fallback from './components/Fallback';
-import ErrorModal from './components/Modal/ErrorModal';
+import { PersistGate } from 'redux-persist/integration/react';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const errorHandler = (error, errorInfo) => {
-  console.log('Error>>>', error, errorInfo);
-}
 root.render(
   <StrictMode>
     <Provider store={store}>
-      <ErrorBoundary FallbackComponent={ErrorModal} onError={errorHandler}>
+      <PersistGate loading={null} persistor={Persistor}>
         <App />
-      </ErrorBoundary>
+      </PersistGate>
     </Provider>
   </StrictMode>
 );
