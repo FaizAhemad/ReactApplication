@@ -28,7 +28,8 @@ export const constants = {
     PAGES: 'Pages',
     PAGE: 'Page',
     SET_PAGE_NOT_FOUND: 'SET_PAGE_NOT_FOUND',
-    SET_LOGIN:'SET_LOGIN'
+    SET_LOGIN: 'SET_LOGIN',
+    DETECT_SCREEN_RESOLUTION: 'DETECT_SCREEN_RESOLUTION'
 };
 
 export const formVariables = {
@@ -62,8 +63,9 @@ export const formVariables = {
     ENTER_YOUR_EMAIL: 'Enter your email',
     WE_WILL_NEVER_SHARE_YOUR_EMAIL_WITH_ANYONE_ELSE: 'We\'ll never share your email with anyone else.',
     ALREADY_HAVE_AN_ACCOUNT: 'Already have an account?',
-    REMEMBER_ME: 'Remember Me'
-
+    REMEMBER_ME: 'Remember Me',
+    ENTER_YOUR_ADDRESS: "Enter Your Address",
+    IMAGE: 'Image'
 };
 
 export const ProductStrings = {
@@ -85,7 +87,7 @@ export const title = {
     CLOSE: 'Close'
 };
 
-export const defaultBrandName = { name: 'FH India' };
+export const defaultBrandName = { name: 'The Mall' };
 
 export let days = [];
 
@@ -106,6 +108,26 @@ export const countries = [];
 export const getAllCountriesUrl = 'https://restcountries.com/v3.1/all';
 
 export const openInNewTab = url => window.open(url, '_blank', 'noopener,noreferrer');
+
+export const responsive1 = {
+    superLargeDesktop: {
+        // the naming can be any, depends on you.
+        breakpoint: { max: 4000, min: 3000 },
+        items: 1
+    },
+    desktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 1
+    },
+    tablet: {
+        breakpoint: { max: 1024, min: 464 },
+        items: 1
+    },
+    mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 1
+    }
+};
 
 export const responsive = {
     superLargeDesktop: {
@@ -169,8 +191,15 @@ export const setObjectValues = (objToSet, currentObject) => {
     return currentObject;
 };
 
-export const validEmail = new RegExp(
-    '^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
-);
 
-export const validPassword = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
+export const nameRangeValidatorRegex = () => new RegExp(/^.{4,20}$/);
+
+export const passwordRangeValidatorRegex = () => new RegExp(/^.{8,20}$/);
+
+export const regexForValidation = {
+    REPLACE_EXTRA_SPACES_WITH_SINGLE_SPACE: new RegExp(/\s\s+/g),
+    EMAIL: new RegExp(/^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/),
+    NAME: new RegExp(/^[a-zA-Z ]*$/),
+    PASSWORD: new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/),
+    IND_MOBILE: new RegExp(/^[7-9][0-9]{9}$/)
+};

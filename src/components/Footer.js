@@ -16,7 +16,7 @@ function Footer({ isPageNotFoundPage, isLoginPage, ...props }) {
             <div className="navFooterVerticalRow navAccessibility" style={{ display: "flex", flexWrap: 'wrap', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%', paddingTop: '40px' }}>
                 <div className="navFooterLinkCol navAccessibility">
                     <ul>
-                        <div className="navFooterColHead" style={{ color: 'white', fontWeight: '600' }}>{ABOUT_US}</div>
+                        <div className="heading" style={{ color: 'white', fontWeight: '600' }}>{ABOUT_US}</div>
                         <li>
                             <a href="https://www.aboutamazon.in/?utm_source=gateway&amp;utm_medium=footer" className="nav_a">{ABOUT_US}</a>
                         </li>
@@ -38,7 +38,7 @@ function Footer({ isPageNotFoundPage, isLoginPage, ...props }) {
                 <div className="navFooterColSpacerInner navAccessibility"></div>
                 <div className="navFooterLinkCol navAccessibility">
                     <ul>
-                        <div className="navFooterColHead" style={{ color: 'white', fontWeight: '600' }}>{MAKE_MONEY_WITH_US}</div>
+                        <div className="heading" style={{ color: 'white', fontWeight: '600' }}>{MAKE_MONEY_WITH_US}</div>
 
                         <li className="nav_first">
                             <a href="/b/?node=2838698031&amp;ld=AZINSOANavDesktopFooter&amp;ref_=nav_footer_sell" className="nav_a">{SELL_ON_THIS_WEBSITE}</a>
@@ -63,7 +63,7 @@ function Footer({ isPageNotFoundPage, isLoginPage, ...props }) {
                 <div className="navFooterColSpacerInner navAccessibility"></div>
                 <div className="navFooterLinkCol navAccessibility">
                     <ul>
-                        <div className="navFooterColHead" style={{ color: 'white', fontWeight: '600' }}>{LET_US_HELP_YOU}</div>
+                        <div className="heading" style={{ color: 'white', fontWeight: '600' }}>{LET_US_HELP_YOU}</div>
                         <li className="nav_first">
                             <a href="/gp/help/customer/display.html?nodeId=GDFU3JS5AL6SYHRD&amp;ref_=footer_covid" className="nav_a">{COVID_19_AND_US}</a>
                         </li>
@@ -86,6 +86,9 @@ function Footer({ isPageNotFoundPage, isLoginPage, ...props }) {
                             <a href="/gp/help/customer/display.html?nodeId=200507590&amp;ref_=footer_gw_m_b_he" className="nav_a">{HELP}</a>
                         </li>
                     </ul>
+                </div>
+                <div className="navFooterLinkCol navAccessibility" style={{ padding: '0px 10px', position: 'relative', width: '600px', height: '200px' }}>
+                    <iframe srcDoc='<div style="width:90%;display:flex;justify-content:center;align-items:center;color:white;height:90%;position:absolute;overflow:hidden;">Please check you internet connection to see google map.</div>' onLoad={(e) => { e.currentTarget.removeAttribute('srcDoc') }} src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3802.27546838618!2d75.92077211384!3d17.63710750019947!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc5da1f58f519a3%3A0x576f0371dd6db275!2sSB%20Vihar%2C%20Anand%20Nagar%2C%20Solapur%2C%20Maharashtra%20413224!5e0!3m2!1sen!2sin!4v1658342409315!5m2!1sen!2sin" style={{ border: 0, width: '100%', position: 'relative', height: '100%' }} allowFullScreen="" loading='lazy' referrerPolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
 

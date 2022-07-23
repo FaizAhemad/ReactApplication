@@ -1,9 +1,10 @@
+import { toastr } from "react-redux-toastr";
 import { logout } from "../actions/login-actions";
 import { constants } from "../constants/constants";
 
 let { LOGIN, LOGOUT, IS_ADMIN, UPDATE_USER_DETAILS } = constants;
 const initialState = {
-    user: { isLoggedIn: true, isAdmin: false }
+    user: { isLoggedIn: false, isAdmin: false }
 };
 const loginReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -19,12 +20,13 @@ const loginReducer = (state = initialState, action) => {
                     isLoggedIn: action.payload.isLoggedIn
                 }
             };
-        case LOGOUT: return {
-            user: {
-                ...initialState.user,
-                isLoggedIn: false
-            }
-        };
+        case LOGOUT:
+            return {
+                user: {
+                    ...initialState.user,
+                    isLoggedIn: false
+                }
+            };
         default:
             return state;
     }

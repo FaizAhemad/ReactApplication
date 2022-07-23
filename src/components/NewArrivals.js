@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { defaultScrollPosition, ProductStrings, responsive } from "../constants/constants";
+import { defaultScrollPosition, ProductStrings, responsive, responsive1 } from "../constants/constants";
 import Carousel from 'react-multi-carousel';
 import img1 from '../images/Today\'sDeal/1.jpg';
 import img2 from '../images/Today\'sDeal/2.jpg';
@@ -9,14 +9,14 @@ import img4 from '../images/Today\'sDeal/4.jpg';
 import img5 from '../images/Today\'sDeal/5.jpg';
 import img6 from '../images/Today\'sDeal/6.jpg';
 import img7 from '../images/Today\'sDeal/7.jpg';
+import img8 from '../images/header-PC2.jpg';
+import img9 from '../images/header-PC3.jpg';
 import { connect } from "react-redux";
 
 function NewArrivals({ setPageNotFound, ...props }) {
-
     useEffect(() => {
         defaultScrollPosition();
     }, []);
-
     const { TODAYS_DEAL } = ProductStrings;
     return (
         <Fragment>
@@ -41,7 +41,7 @@ function NewArrivals({ setPageNotFound, ...props }) {
                     itemClass="carousel-item-padding-40-px"
                 // focusOnSelect={true}
                 >
-                    <div style={{ display: 'flex', height: '300px', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', height: '300px', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', padding: '0', width: 'fit-content' }}>
                         <img
                             className=""
                             src={img1}
@@ -53,7 +53,7 @@ function NewArrivals({ setPageNotFound, ...props }) {
                             <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'firebrick', padding: '2px 5px' }}>Deal of the day</span>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'center', alignItems: 'center', padding: '0', width: 'fit-content' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'space-between', alignItems: 'center', padding: '0', width: 'fit-content' }}>
                         <img
                             className=""
                             src={img2}
@@ -65,7 +65,7 @@ function NewArrivals({ setPageNotFound, ...props }) {
                             <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'firebrick', padding: '2px 5px' }}>Deal of the day</span>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'center', alignItems: 'center', padding: '0', width: 'fit-content' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'space-between', alignItems: 'center', padding: '0', width: 'fit-content' }}>
                         <img
                             className=""
                             src={img3}
@@ -77,7 +77,7 @@ function NewArrivals({ setPageNotFound, ...props }) {
                             <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'firebrick', padding: '2px 5px' }}>Deal of the day</span>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'center', alignItems: 'center', padding: '0', width: 'fit-content' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'space-between', alignItems: 'center', padding: '0', width: 'fit-content' }}>
                         <img
                             className=""
                             src={img4}
@@ -89,7 +89,7 @@ function NewArrivals({ setPageNotFound, ...props }) {
                             <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'firebrick', padding: '2px 5px' }}>Deal of the day</span>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'center', alignItems: 'center', padding: '0', width: 'fit-content' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'space-between', alignItems: 'center', padding: '0', width: 'fit-content' }}>
                         <img
                             className=""
                             src={img5}
@@ -101,7 +101,7 @@ function NewArrivals({ setPageNotFound, ...props }) {
                             <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'firebrick', padding: '2px 5px' }}>Deal of the day</span>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'center', alignItems: 'center', padding: '0', width: 'fit-content' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'space-between', alignItems: 'center', padding: '0', width: 'fit-content' }}>
                         <img
                             className=""
                             src={img6}
@@ -113,7 +113,7 @@ function NewArrivals({ setPageNotFound, ...props }) {
                             <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'firebrick', padding: '2px 5px' }}>Deal of the day</span>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'center', alignItems: 'center', padding: '0', width: 'fit-content' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', height: '300px', justifyContent: 'space-between', alignItems: 'center', padding: '0', width: 'fit-content' }}>
                         <img
                             className=""
                             src={img7}
@@ -234,13 +234,72 @@ function NewArrivals({ setPageNotFound, ...props }) {
                     </div>
                 </Carousel>
             </Container>
+            <Container style={{ marginTop: '40px' }}>
+                <h2 style={{ fontWeight: 'bold' }}>{TODAYS_DEAL}</h2>
+                <Carousel
+                    swipeable={false}
+                    draggable={false}
+                    showDots={false}
+                    responsive={responsive1}
+                    ssr={true} // means to render carousel on server-side.
+                    infinite={true}
+                    autoPlay={true}
+                    // autoPlay={this.props.deviceType !== "mobile" ? true : false}
+                    autoPlaySpeed={5000}
+                    keyBoardControl={true}
+                    customTransition=""
+                    transitionDuration={500}
+                    containerClass="carousel-container"
+                    removeArrowOnDeviceType={["tablet", "mobile", 'superLargeDesktop', 'desktop']}
+                    // deviceType={this.props.deviceType}
+                    dotListClass=""
+                    itemClass=""
+                // focusOnSelect={true}
+                >
+                    <div style={{ width: '100%', position: 'relative' }}>
+                        <img style={{ width: '100%', height: '100%' }}
+                            className=""
+                            src={img8}
+                            alt="First slide"
+                        />
+                    </div>
+                    <div style={{ width: '100%', position: 'relative' }}>
+                        <img style={{ width: '100%', height: '100%' }}
+                            className=""
+                            src={img9}
+                            alt="First slide"
+                        />
+                    </div>
+                    <div style={{ width: '100%', position: 'relative' }}>
+                        <img style={{ width: '100%', height: '100%' }}
+                            className=""
+                            src={img8}
+                            alt="First slide"
+                        />
+                    </div>
+                    <div style={{ width: '100%', position: 'relative' }}>
+                        <img style={{ width: '100%', height: '100%' }}
+                            className=""
+                            src={img8}
+                            alt="First slide"
+                        />
+                    </div>
+                    <div style={{ width: '100%', position: 'relative' }}>
+                        <img style={{ width: '100%', height: '100%' }}
+                            className=""
+                            src={img9}
+                            alt="First slide"
+                        />
+                    </div>
+                </Carousel>
+            </Container>
         </Fragment>
     )
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-       
+
     };
 };
 

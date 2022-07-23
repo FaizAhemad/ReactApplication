@@ -2,22 +2,36 @@ import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { connect } from "react-redux";
 import { defaultScrollPosition } from "../constants/constants";
+import NotLoggedIn from "./NotLoggedIn";
 
-function MyCart({ setPageNotFound, ...props }) {
-
+function MyCart({ isLoggedIn, ...props }) {
   useEffect(() => {
     defaultScrollPosition();
   }, []);
-
   return (
-    <Container style={{ margin: '120px 0px 0px 0px' }}>MyCart</Container>
+    <Container style={{ margin: '120px 0px 0px 0px' }}>
+      <div>
+        <h4><b>
+          {isLoggedIn ?
+            'Yes'
+            :
+            <NotLoggedIn />
+          }
+        </b></h4>
+      </div>
+    </Container>
   )
+};
+
+const mapStateToProps = (store) => {
+  return {
+    isLoggedIn: !!store.loginReducer.user.isLoggedIn
+  }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-  
   };
 };
 
-export default connect(null, mapDispatchToProps)(MyCart);
+export default connect(mapStateToProps, mapDispatchToProps)(MyCart);

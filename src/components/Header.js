@@ -1,15 +1,14 @@
-import { Fragment, useEffect, useState } from 'react';
-import { Navbar, Container, Nav, Form } from 'react-bootstrap';
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { Navbar, Container, Nav, Form, NavDropdown } from 'react-bootstrap';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { changeProductView } from '../actions/products-action';
 import { hideSidebar, showSidebar } from '../actions/sidebar-actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faChevronRight, faUserCircle, faCartShopping } from '@fortawesome/free-solid-svg-icons';
-import { title, defaultBrandName, constants, navLinks, goToHome } from '../constants/constants';
-
-function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible, setShowSidebar, setHideSidebar, ...props }) {
+import { faXmark, faChevronRight, faUserCircle, faCartShopping, faChevronDown, faChevronUp, faChevronCircleUp, faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
+import { title, defaultBrandName, constants, navLinks, goToHome, defaultScrollPosition } from '../constants/constants';
+function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible, setShowSidebar, setHideSidebar, isLoginPage, isPageNotFoundPage, screen, ...props }) {
     let [searchQuery, setSearchquery] = useState('');
     let [expanded, setExpanded] = useState(false);
     let [isSearchBoxFocused, setSearchBoxFocus] = useState(false);
@@ -19,6 +18,8 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
     const totalItemsInMyCart = 0;
     const closeNav = () => setExpanded(false);
     const expandNav = () => setExpanded(!expanded);
+    const navlinkRef = useRef();
+    const [mouseEnteredOnDropdown, setMouseEnteredOnDropdown] = useState(false);
 
     return (
         <Fragment>
@@ -31,7 +32,61 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                             <NavLink onClick={closeNav} className='nav-link' activeclassname="is-active" to="/home">{navLinks.HOME}</NavLink>
                             <NavLink onClick={closeNav} className='nav-link' activeclassname="is-active" to="/newarrivals">{navLinks.NEW_ARRIVALS}</NavLink>
                             <NavLink onClick={closeNav} className='nav-link' activeclassname="is-active" to="/products">{navLinks.ALL_PRODUCTS}</NavLink>
-                            <NavLink onClick={closeNav} className='nav-link' activeclassname="is-active" to="/categories">{navLinks.CATEGORIES}</NavLink>
+                            {
+                                (screen.width > 991) &&
+                                <NavDropdown onMouseEnter={() => setMouseEnteredOnDropdown(true)} onMouseLeave={() => setMouseEnteredOnDropdown(false)} title={<><span>Categories</span> <FontAwesomeIcon style={{ fontSize: '14px' }} icon={mouseEnteredOnDropdown ? faChevronUp : faChevronDown} /></>} id="collasible-nav-dropdown" show={mouseEnteredOnDropdown}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-evenly', flexWrap: 'wrap', overflowY: 'auto' }}>
+                                        <div className='' >
+                                            <NavDropdown.Item className='heading'><h4><b>MENS</b></h4></NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >
+                                                Another action
+                                            </NavDropdown.Item>
+                                            <NavDropdown.Item >Something</NavDropdown.Item>
+                                        </div>
+                                        <div className='' >
+                                            <NavDropdown.Item className='heading'><h4><b>MENS</b></h4></NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >
+                                                Another action
+                                            </NavDropdown.Item>
+                                            <NavDropdown.Item >Something</NavDropdown.Item>
+                                        </div>
+                                        <div className='' >
+                                            <NavDropdown.Item className='heading'><h4><b>MENS</b></h4></NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >
+                                                Another action
+                                            </NavDropdown.Item>
+                                            <NavDropdown.Item >Something</NavDropdown.Item>
+                                        </div>
+                                        <div className='' >
+                                            <NavDropdown.Item className='heading'><h4><b>MENS</b></h4></NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >
+                                                Another action
+                                            </NavDropdown.Item>
+                                            <NavDropdown.Item >Something</NavDropdown.Item>
+                                        </div>
+                                        <div className='' >
+                                            <NavDropdown.Item className='heading'><h4><b>MENS</b></h4></NavDropdown.Item>
+                                            <NavDropdown.Item >Action</NavDropdown.Item>
+                                            <NavDropdown.Item >
+                                                Another action
+                                            </NavDropdown.Item>
+                                            <NavDropdown.Item >Something</NavDropdown.Item>
+                                        </div>
+                                    </div>
+                                </NavDropdown>
+                            }
                         </Nav>
                         <Nav className="me-auto" >
                             <Form className="d-flex" style={{ padding: '0', boxShadow: 'none', position: 'relative' }}>
@@ -46,17 +101,26 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                     onFocus={() => setSearchBoxFocus(true)}
                                     onBlur={() => setSearchBoxFocus(false)}
                                     onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-
                                 />
                                 <div className='header-search-box-close-btn' style={{ color: '#03A9F4', position: 'absolute', right: '0', top: '0', padding: '10px 10px 15px 10px' }}><FontAwesomeIcon style={{ visibility: searchQuery ? 'visible' : 'hidden', cursor: 'pointer' }} icon={faXmark} onClick={() => setSearchquery('')} /></div>
                             </Form>
                         </Nav>
                         <Nav className="justify-content-end" >
-                            <NavLink onClick={closeNav} className='nav-link header-right-nav' to="/myorders" >{navLinks.RETURNS_AND_ORDERS}</NavLink>
+                            <NavLink
+                                onClick={closeNav}
+                                to="/myorders"
+                                className='nav-link header-right-nav'
+                            >
+                                {navLinks.RETURNS_AND_ORDERS}
+                            </NavLink>
                             {/* <NavLink onClick={closeNav} className='nav-link' activeclassname="is-active" to="/login">Login</NavLink>
                                 <NavLink onClick={closeNav} className='nav-link' activeclassname="is-active" to="/register">Register</NavLink> */}
-                            <NavLink to={'/myCart'} style={{ position: 'relative', padding: '10px 15px' }}>
-                                <span style={{ display: 'flex', width: totalItemsInMyCart < 10 ? '20px' : '22px', fontSize: totalItemsInMyCart > 99 ? '9px' : '10px', color: 'white', fontWeight: 'bold', height: totalItemsInMyCart < 10 ? '20px' : '22px', borderRadius: '50%', top: '0px', right: '10px', border: '1px solid red', position: 'absolute', background: 'red', justifyContent: 'center', alignItems: 'center' }}>
+                            <NavLink
+                                to={'/myCart'}
+                                ref={navlinkRef}
+                                style={{ position: 'relative', padding: '14px 15px', boxSizing: 'border-box' }}
+                            >
+                                <span id='totalItemsInMyCart' style={{ display: 'flex', width: totalItemsInMyCart < 10 ? '20px' : '22px', fontSize: totalItemsInMyCart > 99 ? '9px' : '10px', color: 'white', fontWeight: 'bold', height: totalItemsInMyCart < 10 ? '20px' : '22px', borderRadius: '50%', top: '2px', right: '10px', border: '1px solid red', position: 'absolute', background: 'red', justifyContent: 'center', alignItems: 'center' }}>
                                     {totalItemsInMyCart > 99 ? 99 + '+' : totalItemsInMyCart < 0 ? 0 : totalItemsInMyCart}
                                 </span>
                                 <FontAwesomeIcon
@@ -64,7 +128,8 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                     style={{
                                         fontSize: '28px',
                                         color: pathname === '/myCart' ? '#03A9F4' : 'gainsboro'
-                                    }} icon={faCartShopping} />
+                                    }} icon={faCartShopping}
+                                />
                             </NavLink>
                             {
                                 isLoggedIn &&
@@ -84,19 +149,20 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                 </div>
             </div>
             {
-                <div style={{ background: 'white', width: '100%', height: '60px', position: 'fixed', zIndex: isSidebarVisible ? 10 : 0, visibility: !isSidebarVisible && 'hidden', top: '54px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginLeft: isSidebarVisible ? '0px' : '-250px', transition: 'all .6s' }}>
+                <div style={{ background: 'white', width: '100%', height: '60px', position: 'fixed', zIndex: isSidebarVisible ? 10 : 0, visibility: !isSidebarVisible && 'hidden', top: '54px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginLeft: isSidebarVisible ? '0px' : '-310px', transition: 'all .6s' }}>
                     <Nav>
                         <button onClick={setShowSidebar} className='nav-link buttonAsLink'>Show SideBar</button>
                     </Nav>
                     <div style={{ position: 'fixed', display: 'flex', alignItems: 'flex-start', backgroundColor: isSidebarVisible ? 'rgba(0, 0, 0, .6)' : 'rgba(0, 0, 0, 0)', width: '100%', height: '100%', top: '54px' }}>
                         <div style={{ height: '100%' }}>
-                            <div style={{ height: '100%', width: '250px', border: '2px solid red', background: '#4EA3AB', overflowY: 'auto', paddingBottom: '200px' }}>
+                            <div style={{ height: '100%', width: '300px', border: '2px solid red', background: '#4EA3AB', overflowY: 'auto', paddingBottom: '200px' }}>
                                 <li className='fixedLiBgColor'>
                                     <FontAwesomeIcon icon={faUserCircle} />
                                     <Link to={isLoggedIn ? '/home' : '/login'} onClick={() => {
                                         setHideSidebar();
+                                        isPageNotFoundPage ? defaultScrollPosition(0, 160) : isLoginPage ? defaultScrollPosition(0, 80) : defaultScrollPosition()
                                     }}>
-                                        <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>Hello{isLoggedIn ? <>&nbsp;</> : ', Sign in'}{isLoggedIn && <span style={{ width: '60%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', display: 'inline-block' }} title={currentUser && currentUser}>{currentUser && currentUser}</span>}</h3></Link></li>
+                                        <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>Hello{isLoggedIn ? <>&nbsp;</> : ', Sign in'}{isLoggedIn && <span style={{ width: '60%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', display: 'inline-block' }} title={"Faiz Ahemad Shaikh"}>{"Faiz Ahemad Shaikh"}</span>}</h3></Link></li>
                                 <div style={{ height: '130px', boxSizing: 'border-box', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <img src='chrome://branding/content/about-logo.png' alt='' style={{ height: '70px', width: '70px' }} />
                                 </div>
@@ -123,22 +189,22 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
         </Fragment>
     )
 };
-
 Header.defaultProps = {
     brandName: defaultBrandName.name
 };
-
 Header.propTypes = {
     brandName: PropTypes.string
 };
-
 const mapStateToProps = (store) => {
     return {
         store: store,
         isAdmin: store.loginReducer.user.isAdmin,
         currentUser: store.loginReducer.user.name,
         isLoggedIn: !!store.loginReducer.user.isLoggedIn,
-        isSidebarVisible: store.sidebarReducer.isSideBarVisible
+        isSidebarVisible: store.sidebarReducer.isSideBarVisible,
+        isPageNotFoundPage: store.generalReducer.isPageNotFoundComponent,
+        screen: store.generalReducer.screen,
+        isLoginPage: store.generalReducer.isLoginComponent
     }
 };
 
