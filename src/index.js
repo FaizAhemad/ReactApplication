@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import store, { Persistor } from './store';
 import { ErrorBoundary } from 'react-error-boundary';
 import { PersistGate } from 'redux-persist/integration/react';

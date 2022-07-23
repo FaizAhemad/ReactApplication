@@ -3,6 +3,7 @@ import { Form, Container } from 'react-bootstrap';
 import { connect, Provider } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import 'react-multi-carousel/lib/styles.css';
+import ReduxToastr from 'react-redux-toastr';
 import "./App.css"
 import Header from './components/Header';
 import Home from './components/Home';
@@ -20,15 +21,24 @@ import { ErrorBoundary } from 'react-error-boundary';
 import Fallback from './components/Fallback';
 import ErrorModal from './components/Modal/ErrorModal';
 import Logout from './components/Logout';
+import { detectScreenResolution } from './actions/general-actions';
 
 const errorHandler = (error, errorInfo) => {
   console.log('Error>>>', error, errorInfo);
 }
 
-function App() {
+function App({ setScreenResolutionValue }) {
+  window.addEventListener('beforeunload', () => {
+    setScreenResolutionValue(window.screen.height, window.screen.width);
+  });
+  useEffect(() => {
+    window.removeEventListener('beforeunload', () => {
+      setScreenResolutionValue(0, 0);
+    });
+  });
   return (
     <BrowserRouter>
-    {/* <ErrorBoundary FallbackComponent={ErrorModal} onError={errorHandler}> */}
+      {/* <ErrorBoundary FallbackComponent={ErrorModal} onError={errorHandler}> */}
       <Fragment>
         <div style={{ position: "relative" }}>
           {/* <div id='scrollToTop' onClick={() => window.scrollTo(0, 0)} style={{ fontSize: '40px', position: "fixed", bottom: 70, right: 20, zIndex: 1 }}>&#128285;</div> */}
@@ -50,6 +60,16 @@ function App() {
             </Routes>
           </Container>
           <Footer />
+          <ReduxToastr
+            timeOut={3000}
+            newestOnTop={true}
+            preventDuplicates
+            position="top-right"
+            getState={(state) => state.toastr} // This is the default
+            transitionIn="fadeIn"
+            transitionOut="fadeOut"
+            progressBar
+            closeOnToastrClick />
         </div>
       </Fragment>
       {/* </ErrorBoundary> */}
@@ -57,4 +77,18 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (store) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setScreenResolutionValue: (h, w) => {
+      dispatch(detectScreenResolution(h, w));
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);

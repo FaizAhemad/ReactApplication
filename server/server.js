@@ -10,11 +10,10 @@ const PORT = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
 const { url } = require('inspector');
 const jsonParser = bodyParser.json();
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const urlencodedParser = bodyParser.urlencoded({ extended: true });
 app.use(urlencodedParser);
 app.use(jsonParser);
 app.use(cors({ allowedHeaders: '*', origin: '*' }));
-app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.resolve(__dirname, '../build')));
 
 // middleware that is specific to this router
