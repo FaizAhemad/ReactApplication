@@ -158,11 +158,16 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                             <div style={{ height: '100%', width: '300px', border: '2px solid red', background: '#4EA3AB', overflowY: 'auto', paddingBottom: '200px' }}>
                                 <li className='fixedLiBgColor'>
                                     <FontAwesomeIcon icon={faUserCircle} />
-                                    <Link to={isLoggedIn ? '/home' : '/login'} onClick={() => {
-                                        setHideSidebar();
-                                        isPageNotFoundPage ? defaultScrollPosition(0, 160) : isLoginPage ? defaultScrollPosition(0, 80) : defaultScrollPosition()
-                                    }}>
-                                        <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>Hello{isLoggedIn ? <>&nbsp;</> : ', Sign in'}{isLoggedIn && <span style={{ width: '60%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', display: 'inline-block' }} title={"Faiz Ahemad Shaikh"}>{"Faiz Ahemad Shaikh"}</span>}</h3></Link></li>
+                                    <Link to={isLoggedIn ? '/home' : '/login'}
+                                        onClick={() => {
+                                            setHideSidebar();
+                                            isPageNotFoundPage ? defaultScrollPosition(0, 160) : isLoginPage ? defaultScrollPosition(0, 80) : defaultScrollPosition()
+                                        }}
+                                        style={{ width: '80%' }}
+                                    >
+                                        <h3 style={{ display: 'flex', justifyContent: 'flex-start' }}>Hello{isLoggedIn ? <>&nbsp;</> : ', Sign in'}{isLoggedIn && <span style={{ width: '60%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', display: 'inline-block' }} title={"Faiz Ahemad Shaikh"}>{"Faiz Ahemad Shaikh"}</span>}</h3>
+                                    </Link>
+                                </li>
                                 <div style={{ height: '130px', boxSizing: 'border-box', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <img src='chrome://branding/content/about-logo.png' alt='' style={{ height: '70px', width: '70px' }} />
                                 </div>
@@ -211,13 +216,13 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         changeProductViewDispatch: (view) => {
-            dispatch(changeProductView(view));
+            dispatch(changeProductView(view))
         },
         setShowSidebar: () => {
-            dispatch(showSidebar());
+            dispatch(showSidebar())
         },
         setHideSidebar: () => {
-            dispatch(hideSidebar());
+            dispatch(hideSidebar())
         }
     }
 };

@@ -5,6 +5,7 @@ const registerRoute = require('./routes/register');
 const homeRoute = require('./routes/home');
 const userRoute = require('./routes/user');
 const loginroute = require('./routes/login');
+const adminroute = require('./routes/admin');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
@@ -25,6 +26,7 @@ app.use('/api', loginroute);
 app.use('/api/register', registerRoute);
 app.use('/api/home', homeRoute);
 app.use('/api/fetchUser', userRoute);
+app.use('/api/admin', adminroute);
 
 app.get('/', (req, res) => {
     res.redirect('/api');

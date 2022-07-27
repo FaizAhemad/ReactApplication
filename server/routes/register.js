@@ -9,6 +9,9 @@ const { extname } = require('path');
 const { promisify } = require('util');
 const pipeline = promisify(require('stream').pipeline);
 const imageReg = /[\/.](gif|jpg|jpeg|tiff|png)$/i;
+const uuid = require('uuidv4');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // const storage = multer.diskStorage({
 //     destination: (req, file, callBack) => {
@@ -22,14 +25,11 @@ const imageReg = /[\/.](gif|jpg|jpeg|tiff|png)$/i;
 //         }
 //     }
 // });
-
 // var upload = multer({
 //     storage: storage
 // });
 
-
 //multer 2.0.0-rc.1
-
 const upload = multer();
 sql.connect(dbConfig)
     .then((a) => console.log(`Connected to ${a.config.database}`))
@@ -55,17 +55,31 @@ router.post('/', upload.single('userImage'), async (req, res) => {
             country,
             state,
             city,
-            address
+            address,
+            mobile
         }
     } = req;
+    let hashedPassword = await bcrypt.hash(password, 10);
     const extension = extname(file.originalName);
-    // console.log("post reg",req.file)
     try {
         if (imageReg.test(file.originalName)) {
             if (imageReg.test(file.detectedFileExtension)) {
                 const filename = email + '-' + file.detectedFileExtension;
-                await pipeline(file.stream, fs.createWriteStream(`${__dirname}/../../public/images/user/${filename}`));
-                res.status(200).send({ success: true });
+                let findUserByEmail = await sql.query(`select * from tblusers where email='${req.body.email}'`);
+                let user = findUserByEmail.recordset[0];
+                if (user) {
+                    res.status(200).json({ message: 'You are already registered with this email.', success: false });
+                }
+                else {
+                    sql.query(`INSERT INTO tblusers (email,password,genderid,firstname, middlename, lastname,
+                        fullname,dob,country,state,city,address,mobile,image) VALUES ('${email}','${hashedPassword}','${gender === 'Male' ? 1 : 2}','${firstname}','${middlename}','${lastname}',
+                        '${firstname} ${middlename} ${lastname}','${day}-${month}-${year}','${country}','${state}','${city}',
+                        '${address}','${mobile}','${file.originalName}')`, async function (err, result) {
+                        if (err) throw err;
+                        await pipeline(file.stream, fs.createWriteStream(`${__dirname}/../../public/images/user/${filename}`));
+                        res.status(200).send({ success: true });
+                    });
+                }
             }
             else {
                 res.status(200).send({ message: `The images you chosen is corrupted and is not valid, Please choose different image file.` });
@@ -73,32 +87,10 @@ router.post('/', upload.single('userImage'), async (req, res) => {
         } else {
             res.status(200).send({ message: `Please choose an image file. It seems you selected ${extension.replace('.', '')} file.` });
         }
-        // let findUserByEmail = await sql.query(`select * from tbladmin where adminemail='${req.body.useremail}'`);
-        // let user = findUserByEmail.recordset[0];
-        // if (!user) {
-        //     res.status(200).json({ message: 'You are not registered with this email.' , success: false });
-        // }
-        // else {
-        //     if (req.body.password === user.adminpassword) {
-        //         res.status(200).json({
-        //             message: 'login successful.',
-        //             success: true,
-        //             id: user.adminid,
-        //             email: user.adminemail,
-        //             gender: user.genderid === 1 ? "Male" : "Female",
-        //             name: user.name
-        //         });
-        //     }
-        //     else {
-        //         res.status(200).json({ message: 'You entered wrong password.', success: false });
-        //     }
-        // }
-        // res.status(200).json({ message: 'You entered wrong password.', success: false });
     } catch (error) {
-        res.status(200).json({ message: 'Something went wrong.', success: false });
+        res.status(200).json({ message: error.toString(), success: false });
         sql.close();
     }
-
 });
 
 module.exports = router;

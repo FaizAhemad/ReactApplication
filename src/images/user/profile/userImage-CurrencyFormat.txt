@@ -1,0 +1,66 @@
+
+
+export function getCurrencyName(langId = 'en-US') {
+
+  if (langId == "fr-FR" || langId == "en-IE" || langId == "de-DE" || langId == "nl-NL") {
+    return "EUR"
+  }
+  else if (langId == "en-GB") {
+    return "GBP"
+  }
+  else if (langId == "ja-JP") {
+    return "JPY"
+  }
+  else if (langId == "da-DK") {
+    return "DKK"
+  }
+  else if (langId == "he") {
+    return "ILS"
+  }
+  else if (langId == "pt-BR") {
+    return "BRL"
+  }
+  else {
+    return "USD"
+  }
+}
+
+//Prevent rouding of number
+export function getFlooredFixed(value, decimals) {
+  return (Math.floor(value * Math.pow(10, decimals)) / Math.pow(10, decimals)).toFixed(decimals);
+}
+
+export function formatCurrencyPerLanguageId(langId = 'en-US', value) {
+  let currency = getCurrencyName(langId);
+  const pattern = /[,.]0+$/;
+  let strValue = value + "";
+  if (value != 0) {
+    if (langId == "pt-BR") {
+      pattern = /,0+$/
+    }
+    if (pattern.test(strValue)) {
+      return new Intl.NumberFormat(langId, {
+        style: 'currency',
+        currency: currency,
+        currencyDisplay: 'narrowSymbol',
+        useGrouping: true,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+    else {
+      return new Intl.NumberFormat(langId, {
+        style: 'currency',
+        currency: currency,
+        currencyDisplay: 'narrowSymbol',
+        useGrouping: true,
+      }).format(value);
+    }
+  }
+  else {
+    return new Intl.NumberFormat(langId, {
+      style: 'currency',
+      currency: currency
+    }).format(0);
+  }
+}

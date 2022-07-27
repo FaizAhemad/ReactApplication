@@ -3,7 +3,8 @@ import { Form, Container } from 'react-bootstrap';
 import { connect, Provider } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import 'react-multi-carousel/lib/styles.css';
-import ReduxToastr from 'react-redux-toastr';
+import ReduxToastr, { toastr } from 'react-redux-toastr';
+import axios from 'axios';
 import "./App.css"
 import Header from './components/Header';
 import Home from './components/Home';
@@ -21,16 +22,26 @@ import { ErrorBoundary } from 'react-error-boundary';
 import Fallback from './components/Fallback';
 import ErrorModal from './components/Modal/ErrorModal';
 import Logout from './components/Logout';
-import { detectScreenResolution } from './actions/general-actions';
+import { detectScreenResolution, isAdminRegistered } from './actions/general-actions';
+import { checkForAdminAccount } from './constants/constants';
+import ImagePreview from './components/ImagePreview';
 
-const errorHandler = (error, errorInfo) => {
-  console.log('Error>>>', error, errorInfo);
-}
 
-function App({ setScreenResolutionValue }) {
+function App({ setScreenResolutionValue, setIsAdminFound, isAdminFound, imageSrc, isOpenImagePreviewModal }) {
   window.addEventListener('beforeunload', () => {
     setScreenResolutionValue(window.screen.height, window.screen.width);
   });
+
+  useEffect(() => {
+    axios.get(checkForAdminAccount).then(res => {
+      const { adminFound } = res.data;
+      setIsAdminFound(adminFound);
+    }).catch(e => {
+      setIsAdminFound(false);
+      toastr.error('Oops!', 'Something went wrong');
+    })
+  }, []);
+
   useEffect(() => {
     window.removeEventListener('beforeunload', () => {
       setScreenResolutionValue(0, 0);
@@ -44,6 +55,7 @@ function App({ setScreenResolutionValue }) {
           {/* <div id='scrollToTop' onClick={() => window.scrollTo(0, 0)} style={{ fontSize: '40px', position: "fixed", bottom: 70, right: 20, zIndex: 1 }}>&#128285;</div> */}
           <SocialLinks />
           <Header />
+          <ImagePreview imgSrc={imageSrc} open={isOpenImagePreviewModal} />
           <Container id='main'>
             <Routes>
               <Route path='/' element={<Navigate replace to="/home" />} />
@@ -75,20 +87,25 @@ function App({ setScreenResolutionValue }) {
       {/* </ErrorBoundary> */}
     </BrowserRouter>
   );
-}
+};
 
 const mapStateToProps = (store) => {
   return {
-
+    isAdminFound: store.generalReducer.isAdminRegistered,
+    imageSrc: store.generalReducer.imageSrcForPreview,
+    isOpenImagePreviewModal: store.generalReducer.isImagePreviewModalOpen
   }
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setScreenResolutionValue: (h, w) => {
-      dispatch(detectScreenResolution(h, w));
+      dispatch(detectScreenResolution(h, w))
+    },
+    setIsAdminFound: (value) => {
+      dispatch(isAdminRegistered(value))
     }
   }
-}
+};
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

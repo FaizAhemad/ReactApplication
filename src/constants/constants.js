@@ -29,7 +29,9 @@ export const constants = {
     PAGE: 'Page',
     SET_PAGE_NOT_FOUND: 'SET_PAGE_NOT_FOUND',
     SET_LOGIN: 'SET_LOGIN',
-    DETECT_SCREEN_RESOLUTION: 'DETECT_SCREEN_RESOLUTION'
+    DETECT_SCREEN_RESOLUTION: 'DETECT_SCREEN_RESOLUTION',
+    CHECK_ADMIN: 'CHECK_ADMIN',
+    OPEN_IMAGE_FOR_PREVIEW: 'OPEN_IMAGE_FOR_PREVIEW'
 };
 
 export const formVariables = {
@@ -64,8 +66,9 @@ export const formVariables = {
     WE_WILL_NEVER_SHARE_YOUR_EMAIL_WITH_ANYONE_ELSE: 'We\'ll never share your email with anyone else.',
     ALREADY_HAVE_AN_ACCOUNT: 'Already have an account?',
     REMEMBER_ME: 'Remember Me',
-    ENTER_YOUR_ADDRESS: "Enter Your Address",
-    IMAGE: 'Image'
+    ENTER_YOUR_ADDRESS: 'Enter Your Address',
+    IMAGE: 'Image',
+    MOBILE_NUMBER: 'Mobile Number'
 };
 
 export const ProductStrings = {
@@ -106,6 +109,10 @@ for (let i = min_years; i <= max_years; i++) {
 export const countries = [];
 
 export const getAllCountriesUrl = 'https://restcountries.com/v3.1/all';
+
+export const checkForAdminAccount = 'http://localhost:5000/api/admin/checkForAdminAccount';
+
+export const login_API_URL = 'http://localhost:5000/api/login';
 
 export const openInNewTab = url => window.open(url, '_blank', 'noopener,noreferrer');
 
@@ -197,9 +204,11 @@ export const nameRangeValidatorRegex = () => new RegExp(/^.{4,20}$/);
 export const passwordRangeValidatorRegex = () => new RegExp(/^.{8,20}$/);
 
 export const regexForValidation = {
+    CHAR_LIMIT_0_10: new RegExp(/^.{1,10}$/),
     REPLACE_EXTRA_SPACES_WITH_SINGLE_SPACE: new RegExp(/\s\s+/g),
     EMAIL: new RegExp(/^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/),
     NAME: new RegExp(/^[a-zA-Z ]*$/),
     PASSWORD: new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/),
-    IND_MOBILE: new RegExp(/^[7-9][0-9]{9}$/)
+    IND_MOBILE: new RegExp(/^[7-9][0-9]{9}$/),
+    IMAGE: /[\/.](gif|jpg|jpeg|tiff|png)$/i
 };

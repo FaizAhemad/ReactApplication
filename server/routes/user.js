@@ -12,7 +12,7 @@ sql.connect(dbConfig)
 
 router.get('/:id', async (req, res) => {
     try {
-        let fetchedUserById = await (await sql.query(`select * from tbladmin where adminid = '${req.params.id}'`)).recordset[0];
+        let fetchedUserById = await sql.query(`select * from tbladmin where adminid = '${req.params.id}'`).recordset[0];
         if (fetchedUserById) {
             let data = {
                 id: fetchedUserById.adminid,
