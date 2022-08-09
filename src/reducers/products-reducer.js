@@ -13,9 +13,6 @@ let initialState = {
     }
 };
 
-
-
-
 const productsReducer = (state = initialState, action) => {
     const { CHANGE_PRODUCT_VIEW, FETCH_PAGINATION, SET_PAGINATION_PROPS } = constants;
     switch (action.type) {

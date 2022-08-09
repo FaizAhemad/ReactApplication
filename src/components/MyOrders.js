@@ -12,11 +12,7 @@ function MyOrders({ setPageNotFound, isLoggedIn, ...props }) {
     <Container style={{ margin: '120px 0px 0px 0px' }}>
       <div>
         <h4><b>
-          {isLoggedIn ?
-            'Yes'
-            :
-            <NotLoggedIn />
-          }
+          my orders
         </b></h4>
       </div>
     </Container>

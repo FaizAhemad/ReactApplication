@@ -4,8 +4,8 @@ let { LOGIN, LOGOUT, IS_ADMIN, UPDATE_USER_DETAILS } = constants;
 
 export const actions = { LOGIN, IS_ADMIN, LOGOUT, UPDATE_USER_DETAILS };
 
-export const login = ({ isLoggedIn, id, name, email, gender }) => {
-
+export const login = ({ isLoggedIn, id, name, email, gender, ...obj }) => {
+    
     return {
         type: actions.LOGIN,
         payload: {
@@ -13,7 +13,8 @@ export const login = ({ isLoggedIn, id, name, email, gender }) => {
             id,
             name,
             email,
-            gender
+            gender,
+            isAdmin: obj.isAdmin
         }
     }
 };

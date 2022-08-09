@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import noImage from '../images/noImage.png';
 
-function Login({ user, isAdmin, isLoggedIn, funcLogin, setLoginComponent, isAdminFoundInDB, setImagePreviewModal, imgSrc, openModal, selectedImageFileFromStore, ...props }) {
+function Login({ user, isAdmin, isLoggedIn, funcLogin, setLoginComponent, checkAdminRegeristeredAlready, setImagePreviewModal, imgSrc, openModal, selectedImageFileFromStore, ...props }) {
   const Location = useLocation();
   let [pathname, setPathname] = useState(Location.pathname);
   let [useremail, setUserEmail] = useState('');
@@ -71,22 +71,14 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setLoginComponent, isAdmi
       loginEmailRef.current.focus();
     };
     setLoginComponent(true);
-    if (isLoggedIn) {
-      navigate('/home');
-    };
     defaultScrollPosition(0, 80);
     return () => {
       setLoginComponent(false);
     };
   }, []);
-  useEffect(() => {
-    console.log(selectedImageFileFromStore)
-
-  });
 
   useEffect(() => {
     if (pathname === '/register') {
-      console.log(isAdminFoundInDB)
       defaultScrollPosition(0, 80)
       axios.get(getAllCountriesUrl).then(res => {
         const data = res.data;
@@ -109,17 +101,29 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setLoginComponent, isAdmi
     else {
       axios.post('http://localhost:5000/api/login', { useremail, password })
         .then(res => {
-          const { success, id, email, name, gender, message } = res.data;
+          const { success, id, email, firstname, lastname, gender, message, isAdmin } = res.data;
           if (success) {
             funcLogin({
               isLoggedIn: true,
               id,
               email,
-              name,
-              gender
+              name: firstname + ' ' + lastname,
+              gender,
+              isAdmin: !!isAdmin
             });
-            toastr.success('Login Successful', 'Successfully logged in to your account.')
-            navigate('/home');
+            if (isAdmin) {
+              toastr.success('Welcome Admin', 'You Successfully logged in to your account.')
+            }
+            else {
+              toastr.success('Login Successful', 'Successfully logged in to your account.')
+            }
+
+            if (useremail === 'IAmAdmin') {
+              navigate('/admin/home');
+            }
+            else {
+              navigate('/home');
+            }
           }
           else {
             setLoginErrorMessage(message);
@@ -204,6 +208,7 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setLoginComponent, isAdmi
       formData.append('country', country);
       formData.append('state', state);
       formData.append('city', city);
+      formData.append('mobile', regMobile);
       formData.append('address', address.trim());
       formData.append('userImage', regImageFile);
       axios.post('http://localhost:5000/api/register', formData)
@@ -243,7 +248,7 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setLoginComponent, isAdmi
               }}
 
               onKeyUp={(e) => {
-                if (useremail.toLocaleLowerCase() === 'IamAdmin'.toLocaleLowerCase()) {
+                if (useremail === 'IAmAdmin') {
                   setuNameValidationError('');
                 }
               }}
@@ -469,12 +474,12 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setLoginComponent, isAdmi
                   return <option key={day}>{day}</option>
                 })}
               </Form.Select>
-              <Form.Select onChange={(e) => { setMonth(e.target.value) }} value={month}>
+              <Form.Select onChange={(e) => { setMonth(e.target.value) }} value={month} style={{ marginLeft: '5px', width: '98%' }}>
                 {mths.map(month => {
                   return <option key={month}>{month}</option>
                 })}
               </Form.Select>
-              <Form.Select onChange={(e) => { setYear(e.target.value) }} value={year}>
+              <Form.Select onChange={(e) => { setYear(e.target.value) }} value={year} style={{ marginLeft: '5px', width: '98%' }}>
                 {yrs.map(year => {
                   return <option key={year}>{year}</option>
                 })}
@@ -580,10 +585,11 @@ function Login({ user, isAdmin, isLoggedIn, funcLogin, setLoginComponent, isAdmi
 
 const mapStateToProps = (store) => {
   return {
+    store,
     user: store.loginReducer.user,
     isAdmin: store.loginReducer.user.isAdmin,
     isLoggedIn: !!store.loginReducer.user.isLoggedIn,
-    isAdminFoundInDB: store.generalReducer.isAdminFoundInDB,
+    checkAdminRegeristeredAlready: store.generalReducer.isAdminRegistered,
     imgSrc: store.generalReducer.imageSrcForPreview,
     openModal: store.generalReducer.isImagePreviewModalOpen,
     selectedImageFileFromStore: store.generalReducer.File

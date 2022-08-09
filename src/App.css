@@ -21,6 +21,18 @@
   min-height: 100vh
 }
 
+h1 {
+  font-size: 5.9vw
+}
+
+h2 {
+  font-size: 3.0vh
+}
+
+p {
+  font-size: 2vmin
+}
+
 .icons {
   height: 300px;
   display: flex;
@@ -117,13 +129,14 @@
 }
 
 .headerNavbar.navbar {
-  padding: 0px 20px
+  padding: 10px 20px
 }
 
 .headerNavbar.navbar .container-fluid .navbar-collapse .navbar-nav .nav-link {
   transition: all .4s;
-  padding: 15px 12px;
-  background: transparent
+  padding: 15px;
+  background: transparent;
+  width: max-content
 }
 
 .nav-link.buttonAsLink {
@@ -161,7 +174,7 @@
   background: #0073B1
 }
 
-.headerNavbar.navbar .container-fluid .navbar-collapse .navbar-nav .nav-link.active {
+.headerNavbar.navbar .container-fluid .navbar-collapse .navbar-nav .nav-link.active:not(.removeActiveFrom_navlink) {
   background: #03A9F4
 }
 
@@ -322,9 +335,13 @@ form {
 }
 
 .nav-item.show.dropdown .dropdown-menu.show {
-
   background-color: #0073B1 !important;
-  top: 52px !important;
+
+}
+
+.expandedDD.nav-item.show.dropdown .dropdown-menu.show {
+
+  top: 62px !important;
   left: 0;
   border-radius: 0;
   border: none;

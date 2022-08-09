@@ -112,6 +112,8 @@ export const getAllCountriesUrl = 'https://restcountries.com/v3.1/all';
 
 export const checkForAdminAccount = 'http://localhost:5000/api/admin/checkForAdminAccount';
 
+export const fetchcategories = 'http://localhost:5000/api/categories/fetchcategories';
+
 export const login_API_URL = 'http://localhost:5000/api/login';
 
 export const openInNewTab = url => window.open(url, '_blank', 'noopener,noreferrer');

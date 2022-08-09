@@ -44,7 +44,7 @@ function PaginationComponent({ currentPage, size, pages, totalPages, paginationS
                         }
                         else {
                             const midpoint = Math.ceil(totalPages / 2);
-                            if (pages === 1 || pages === midpoint + 1 || pages === midpoint) {
+                            if (pages === 1 || pages === currentPage || pages === midpoint + 1 || pages === midpoint) {
                                 return <Pagination.Item key={pages} active={pages === currentPage && true} onClick={(e) => {
                                     props.setPaginationProps({ currentPage: parseInt(e.target.innerHTML) });
                                     setCurrentPageValue(parseInt(e.target.innerHTML));

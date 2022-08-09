@@ -16,7 +16,7 @@ const loginReducer = (state = initialState, action) => {
                     email: action.payload.email,
                     gender: action.payload.gender,
                     name: action.payload.name,
-                    isAdmin: state.user.isAdmin,
+                    isAdmin: action.payload.isAdmin,
                     isLoggedIn: action.payload.isLoggedIn
                 }
             };

@@ -4,6 +4,7 @@ const dbConfig = require('../dbConfig');
 const sql = require('mssql');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 sql.connect(dbConfig)
     .then((a) => console.log(`Connected to ${a.config.database}`))
     .catch(e => {
@@ -17,30 +18,33 @@ router.get('/', (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        if (req.body.useremail === 'IamAdmin') {
+        if (req.body.useremail === 'IAmAdmin') {
             let findUserByEmail = await sql.query(`select * from tbladmin where username='${req.body.useremail}'`);
             let user = findUserByEmail.recordset[0];
             if (!user) {
                 res.status(200).json({ message: 'You are not an admin.', success: false });
             }
             else {
-                // const comparepassword = await bcrypt.compare(req.body.password, user.password);
-                // const token = await jwt.sign({ id: user.id }, process.env.jwtSecret, { expiresIn: '1h' });
+                const comparepassword = await bcrypt.compare(req.body.password, user.password);
+                const token = await jwt.sign({ id: user.id }, process.env.jwtSecret, { expiresIn: '1h' });
                 if (req.body.password === user.password) {
-                    // res.status(200).json({
-                    //     message: 'Login successful',
-                    //     success: true,
-                    //     id: user.id,
-                    //     email: user.email,
-                    //     gender: user.genderid === 1 ? "Male" : "Female",
-                    //     name: user.fullname,
-                    //     token
-                    // });
-                    console.log("Login Successful")
+                    const { email, id, gender, username, mobile, isAdmin, firstname, middlename, lastname, fullname, dob, address, image } = user;
+                    res.status(200).json({
+                        message: 'Login successful',
+                        success: true,
+                        id,
+                        email,
+                        gender: gender === 1 ? "Male" : "Female",
+                        username,
+                        mobile,
+                        isAdmin,
+                        firstname, middlename, lastname,
+                        fullname, dob, address, image,
+                        token
+                    });
                 }
                 else {
-                    console.log("Password is wrong")
-                    // res.status(200).json({ message: 'You entered wrong password.', success: false });
+                    res.status(200).json({ message: 'You entered wrong password.', success: false });
                 }
             }
         }

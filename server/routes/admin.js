@@ -14,7 +14,6 @@ sql.connect(dbConfig)
 router.get('/checkForAdminAccount', async (req, res) => {
     try {
         const checkAdminQuery = await sql.query("select * from tbladmin");
-        console.log(checkAdminQuery)
         if (checkAdminQuery.recordset[0].id) {
             return res.status(200).json({ adminFound: true });
         }
