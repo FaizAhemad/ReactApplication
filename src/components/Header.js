@@ -10,14 +10,13 @@ import { faXmark, faChevronRight, faUserCircle, faCartShopping, faChevronDown, f
 import { title, defaultBrandName, constants, navLinks, goToHome, defaultScrollPosition, fetchcategories } from '../constants/constants';
 import { toastr } from 'react-redux-toastr';
 import axios from 'axios';
+import MainHeaderSearchBox from './MainHeaderSearchBox';
 
 function simulateNetworkRequest() {
     return new Promise((resolve) => setTimeout(resolve, 2000));
 }
 function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible, setShowSidebar, setHideSidebar, isLoginPage, isPageNotFoundPage, screen, ...props }) {
-    let [searchQuery, setSearchquery] = useState('');
     let [expanded, setExpanded] = useState(false);
-    let [isSearchBoxFocused, setSearchBoxFocus] = useState(false);
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const currentView = props.store.productsReducer.productView;
@@ -29,6 +28,7 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
     const [isLoading, setLoading] = useState(false);
 
     const [categories, setCategories] = useState([]);
+    let [searchResult, setSearchResult] = useState([]);
 
     useEffect(() => {
         if (isLoading) {
@@ -46,6 +46,21 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
         })
     }, []);
 
+    const categoriesView = categories.length ?
+        categories.map(category => {
+            return (
+                <div className='' key={category.id} style={{ overflow: 'auto' }}>
+                    <NavDropdown.Item className='heading'><h4><b>{category.cat_name}</b></h4></NavDropdown.Item>
+                    {
+                        category.subcategories.map((subcategory, index) => {
+                            return <NavDropdown.Item key={index} >{subcategory}</NavDropdown.Item>
+                        })
+                    }
+                </div>
+            )
+        })
+        : <></>
+
     return (
         <Fragment>
             {
@@ -61,197 +76,65 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                     <NavLink onClick={closeNav} className={mouseEnteredOnDropdown ? 'removeActiveFrom_navlink nav-link' : 'nav-link'} activeclassname="is-active" to="/admin/manageproducts">{'ManageProducts'}</NavLink>
                                     <NavLink onClick={closeNav} className={mouseEnteredOnDropdown ? 'removeActiveFrom_navlink nav-link' : 'nav-link'} activeclassname="is-active" to="/admin/vendors">{'Vendors'}</NavLink>
                                     {
-                                        (screen.width > 991) &&
-                                        <NavDropdown className='expandedDD' style={{ background: mouseEnteredOnDropdown && '#0073B1' }} onMouseEnter={() => setMouseEnteredOnDropdown(true)} onMouseLeave={() => setMouseEnteredOnDropdown(false)} title={<><span>Categories</span> <FontAwesomeIcon style={{ fontSize: '14px' }} icon={mouseEnteredOnDropdown ? faChevronUp : faChevronDown} /></>} id="collasible-nav-dropdown" show={mouseEnteredOnDropdown}>
+                                        (screen.width > 991) ?
+                                            <NavDropdown className='expandedDD' style={{ background: mouseEnteredOnDropdown && '#0073B1' }} onMouseEnter={() => setMouseEnteredOnDropdown(true)} onMouseLeave={() => setMouseEnteredOnDropdown(false)} title={<><span>Categories</span> <FontAwesomeIcon style={{ fontSize: '14px' }} icon={mouseEnteredOnDropdown ? faChevronUp : faChevronDown} /></>} id="collasible-nav-dropdown" show={mouseEnteredOnDropdown}>
 
-                                            <div >
-                                                {/* <NavDropdown.Item className='heading'><h4><b> Category</b></h4></NavDropdown.Item> */}
-                                                <NavDropdown.Item  >
+                                                <div >
+                                                    {/* <NavDropdown.Item className='heading'><h4><b> Category</b></h4></NavDropdown.Item> */}
+                                                    <NavDropdown.Item  >
 
-                                                    <Form>
-                                                        <h3 ><b>Add New Category</b></h3>
-                                                        <Form.Group className=''>
-                                                            <Form.Label>
-                                                                Category Name
-                                                            </Form.Label>
-                                                            <Form.Control />
-                                                        </Form.Group>
-                                                        <Form.Group className='mt-2'>
-                                                            <h3 ><b>Sub Category</b></h3>
-                                                            <Form.Label>
-                                                                Sub Category Name
-                                                            </Form.Label>
-                                                            <Form.Control />
-                                                        </Form.Group>
-                                                        <Form.Group className='mt-2'>
-                                                            <Form.Control />
-                                                        </Form.Group>
-                                                        <Form.Group className='mt-2'>
-                                                            <Button
-                                                                variant="primary"
-                                                                disabled={isLoading}
-                                                                onClick={!isLoading ? handleClick : null}
-                                                            > {isLoading ? 'Loading…' : 'Click to add'}</Button>
-                                                        </Form.Group>
-                                                    </Form>
-                                                </NavDropdown.Item>
-                                            </div>
-                                            <h3><b>Available Categories: Total (10)</b></h3>
+                                                        <Form>
+                                                            <h3 ><b>Add New Category</b></h3>
+                                                            <Form.Group className=''>
+                                                                <Form.Label>
+                                                                    Category Name
+                                                                </Form.Label>
+                                                                <Form.Control />
+                                                            </Form.Group>
+                                                            <Form.Group className='mt-2'>
+                                                                <h3 ><b>Sub Category</b></h3>
+                                                                <Form.Label>
+                                                                    Sub Category Name
+                                                                </Form.Label>
+                                                                <Form.Control />
+                                                            </Form.Group>
+                                                            <Form.Group className='mt-2'>
+                                                                <Form.Control />
+                                                            </Form.Group>
+                                                            <Form.Group className='mt-2'>
+                                                                <Button
+                                                                    variant="primary"
+                                                                    disabled={isLoading}
+                                                                    onClick={!isLoading ? handleClick : null}
+                                                                > {isLoading ? 'Loading…' : 'Click to add'}</Button>
+                                                            </Form.Group>
+                                                        </Form>
+                                                    </NavDropdown.Item>
+                                                </div>
+                                                <h3><b>Available Categories: Total ({categories.length})</b></h3>
 
-                                            <div style={{ display: 'flex', overflow: 'auto' }}>
-
-                                                {categories.length ?
-
-                                                    categories.map(category => {
-
-                                                        return (
-                                                            <div className='pb-5' >
-                                                                {
-                                                                    JSON.stringify(category)
-                                                                }
-                                                                <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                                <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                                <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                                <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                                <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                                <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                            </div>
-                                                        )
-                                                    })
-                                                    : <></>}
-
-
-                                            </div>
-
-                                            {/* <div style={{ display: 'flex', overflow: 'auto' }}>
-
-                                                <div className='pb-5' >
-                                                    <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-
+                                                <div style={{ display: 'flex', overflow: 'auto' }}>
+                                                    {categoriesView}
                                                 </div>
 
-                                                <div className='pb-5' >
-                                                    <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-
-                                                </div>   <div className='pb-5' >
-                                                    <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-
-                                                </div>   <div className='pb-5' >
-                                                    <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-
-                                                </div>   <div className='pb-5' >
-                                                    <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-
-                                                </div>   <div className='pb-5' >
-                                                    <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-
-                                                </div>   <div className='pb-5' >
-                                                    <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-
-                                                </div>   <div className='pb-5' >
-                                                    <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-
-                                                </div>   <div className='pb-5' >
-                                                    <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-
-                                                </div>   <div className='pb-5' >
-                                                    <NavDropdown.Item className='heading'><h4><b>MENS <FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></b></h4></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-                                                    <NavDropdown.Item >Something <><FontAwesomeIcon icon={faEdit} /> <FontAwesomeIcon icon={faTrashCan} /></></NavDropdown.Item>
-
-                                                </div>
-
-                                            </div> */}
-                                        </NavDropdown>
+                                            </NavDropdown>
+                                            :
+                                            <></>
                                     }
 
                                     {
                                         (screen.width < 992) &&
 
-                                        <NavDropdown title={<><span>Categories</span> <FontAwesomeIcon style={{ fontSize: '14px' }} icon={mouseEnteredOnDropdown ? faChevronUp : faChevronDown} /></>} id="collasible-nav-dropdown" >
-                                            <div className='' >
-                                                <NavDropdown.Item className='heading'><h4><b>MENS</b></h4></NavDropdown.Item>
-                                                <NavDropdown.Item >Something</NavDropdown.Item>
-                                            </div>
-                                            <div className='' >
-                                                <NavDropdown.Item className='heading'><h4><b>MENS</b></h4></NavDropdown.Item>
-
-                                                <NavDropdown.Item >Something</NavDropdown.Item>
-                                            </div>
+                                        <NavDropdown className='navbarCollapsed' title={<><span>Categories</span> <FontAwesomeIcon style={{ fontSize: '14px' }} icon={mouseEnteredOnDropdown ? faChevronUp : faChevronDown} /></>} id="collasible-nav-dropdown" >
+                                            {
+                                                categoriesView
+                                            }
                                         </NavDropdown>
                                     }
                                 </Nav>
                                 <Nav className="me-auto" >
-                                    <Form className="d-flex" style={{ padding: '0', boxShadow: 'none', position: 'relative' }}>
-                                        <Form.Control
-                                            id='header-search-box'
-                                            type="search"
-                                            placeholder={constants.SEARCH}
-                                            aria-label="Search"
-                                            value={searchQuery}
-                                            onChange={e => setSearchquery(e.target.value)}
-                                            style={{ borderRadius: '0px' }}
-                                            onFocus={() => setSearchBoxFocus(true)}
-                                            onBlur={() => setSearchBoxFocus(false)}
-                                            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                                        />
-                                        <div className='header-search-box-close-btn' style={{ color: '#03A9F4', position: 'absolute', right: '0', top: '0', padding: '10px 10px 15px 10px' }}><FontAwesomeIcon style={{ visibility: searchQuery ? 'visible' : 'hidden', cursor: 'pointer' }} icon={faXmark} onClick={() => setSearchquery('')} /></div>
-                                    </Form>
+                                    <MainHeaderSearchBox setSearchResult={setSearchResult} />
+
                                 </Nav>
                                 <Nav className="justify-content-end" >
                                     {
@@ -331,34 +214,33 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                         (screen.width < 992) &&
 
                                         <NavDropdown title={<><span>Categories</span> <FontAwesomeIcon style={{ fontSize: '14px' }} icon={mouseEnteredOnDropdown ? faChevronUp : faChevronDown} /></>} id="collasible-nav-dropdown" >
-                                            <div className='' >
-                                                <NavDropdown.Item className='heading'><h4><b>MENS</b></h4></NavDropdown.Item>
-                                                <NavDropdown.Item >Something</NavDropdown.Item>
-                                            </div>
-                                            <div className='' >
-                                                <NavDropdown.Item className='heading'><h4><b>MENS</b></h4></NavDropdown.Item>
-
-                                                <NavDropdown.Item >Something</NavDropdown.Item>
-                                            </div>
+                                            {
+                                                categories.map(category => {
+                                                    return (
+                                                        <div className='' key={category.id} style={{ border: '2px solid', overflow: 'auto' }}>
+                                                            <NavDropdown.Item className='heading'><h4><b>{category.cat_name}</b></h4></NavDropdown.Item>
+                                                            {
+                                                                category.subcategories.map((subcategory, index) => {
+                                                                    return <NavDropdown.Item key={index} >{subcategory}</NavDropdown.Item>
+                                                                })
+                                                            }
+                                                        </div>
+                                                    )
+                                                })
+                                            }
                                         </NavDropdown>
                                     }
                                 </Nav>
                                 <Nav className="me-auto" >
-                                    <Form className="d-flex" style={{ padding: '0', boxShadow: 'none', position: 'relative' }}>
-                                        <Form.Control
-                                            id='header-search-box'
-                                            type="search"
-                                            placeholder={constants.SEARCH}
-                                            aria-label="Search"
-                                            value={searchQuery}
-                                            onChange={e => setSearchquery(e.target.value)}
-                                            style={{ borderRadius: '0px' }}
-                                            onFocus={() => setSearchBoxFocus(true)}
-                                            onBlur={() => setSearchBoxFocus(false)}
-                                            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                                        />
-                                        <div className='header-search-box-close-btn' style={{ color: '#03A9F4', position: 'absolute', right: '0', top: '0', padding: '10px 10px 15px 10px' }}><FontAwesomeIcon style={{ visibility: searchQuery ? 'visible' : 'hidden', cursor: 'pointer' }} icon={faXmark} onClick={() => setSearchquery('')} /></div>
-                                    </Form>
+                                    <MainHeaderSearchBox setSearchResult={setSearchResult} />
+                                    {searchResult && <div style={{ position: 'absolute', border: '2px solid red', background: 'white' }}>
+                                        {searchResult.map(res => {
+                                            return (<p key={res.id}>
+                                                {res.email}
+                                            </p>)
+                                        })}
+                                    </div>
+                                    }
                                 </Nav>
                                 <Nav className="justify-content-end" >
                                     <NavLink
@@ -397,23 +279,23 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                         </Container>
                     </Navbar>
             }
-            <div style={{ background: 'white', width: '100%', height: '60px', position: 'fixed', zIndex: 1, top: '54px', display: 'flex', alignItems: 'center', padding: '0 10px', justifyContent: 'space-between' }}>
+            <div style={{ background: 'white', width: '100%', height: '60px', position: 'fixed', zIndex: 1, top: '74px', display: 'flex', alignItems: 'center', padding: '0 10px', justifyContent: 'space-between' }}>
                 <Nav>
                     {/* <button onClick={() => setShowSidebar()} className='nav-link buttonAsLink'>Go to Home &#127968;</button> */}
-                    <button onClick={() => setShowSidebar()} className='nav-link buttonAsLink'>{constants.OPEN}<FontAwesomeIcon icon={faChevronRight} />{isSearchBoxFocused}</button>
+                    <button onClick={() => setShowSidebar()} className='nav-link buttonAsLink'>{constants.OPEN}<FontAwesomeIcon icon={faChevronRight} /></button>
                 </Nav>
                 <div id='gridListViewButton'>
                     <b>{constants.CHANGE_PRODUCT_VIEW_STYLE}</b><span onClick={() => props.changeProductViewDispatch('row')} style={{ cursor: 'pointer', color: currentView === 'row' ? 'blue' : '', fontWeight: currentView === 'row' ? 'bold' : 'normal' }}>{constants.GRIDVIEW}</span> &nbsp;&nbsp;  <span onClick={() => props.changeProductViewDispatch('column')} style={{ cursor: 'pointer', color: currentView === 'column' ? 'blue' : '', fontWeight: currentView === 'column' ? 'bold' : 'normal' }}>{constants.LISTVIEW}</span>
                 </div>
             </div>
             {
-                <div style={{ background: 'white', width: '100%', height: '60px', position: 'fixed', zIndex: isSidebarVisible ? 10 : 0, visibility: !isSidebarVisible && 'hidden', top: '54px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginLeft: isSidebarVisible ? '0px' : '-310px', transition: 'all .6s' }}>
+                <div style={{ background: 'white', width: '100%', height: '60px', position: 'fixed', zIndex: isSidebarVisible ? 10 : 0, visibility: !isSidebarVisible && 'hidden', top: '74px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginLeft: isSidebarVisible ? '0px' : '-310px', transition: 'all .6s' }}>
                     <Nav>
                         <button onClick={setShowSidebar} className='nav-link buttonAsLink'>Show SideBar</button>
                     </Nav>
-                    <div style={{ position: 'fixed', display: 'flex', alignItems: 'flex-start', backgroundColor: isSidebarVisible ? 'rgba(0, 0, 0, .6)' : 'rgba(0, 0, 0, 0)', width: '100%', height: '100%', top: '54px' }}>
+                    <div style={{ position: 'fixed', display: 'flex', alignItems: 'flex-start', backgroundColor: isSidebarVisible ? 'rgba(0, 0, 0, .6)' : 'rgba(0, 0, 0, 0)', width: '100%', height: '100vh', top: '74px' }}>
                         <div style={{ height: '100%' }}>
-                            <div style={{ height: '100%', width: '300px', border: '2px solid red', background: '#4EA3AB', overflowY: 'auto', paddingBottom: '200px' }}>
+                            <div id='sideNavHeight' style={{ width: '300px', background: '#4EA3AB' }}>
                                 <li className='fixedLiBgColor'>
                                     <FontAwesomeIcon icon={faUserCircle} />
                                     <Link to={isLoggedIn ? '/home' : '/login'}
@@ -429,19 +311,11 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                 <div style={{ height: '130px', boxSizing: 'border-box', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <img src='chrome://branding/content/about-logo.png' alt='' style={{ height: '70px', width: '70px' }} />
                                 </div>
-                                <div style={{ overflowY: 'auto', height: '900px' }}>
+                                <div>
                                     <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/home'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new1'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new2'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new4'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new5'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new6'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new7'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new8'}>Home</NavLink>
-                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/new9'}>Home</NavLink>
-                                </div>
-                                <div style={{ height: '100%' }}>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/contact'}>Contact</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/newarrivals'}>New Arrivals</NavLink>
+                                    <NavLink className='sidebar-link' activeclassname="is-active" onClick={() => setHideSidebar()} to={'/about'}>About</NavLink>
                                 </div>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ import img7 from '../images/Today\'sDeal/7.jpg';
 import img8 from '../images/header-PC2.jpg';
 import img9 from '../images/header-PC3.jpg';
 import { connect } from "react-redux";
+import { Helmet } from "react-helmet";
 
 function NewArrivals({ setPageNotFound, ...props }) {
     useEffect(() => {
@@ -20,6 +21,9 @@ function NewArrivals({ setPageNotFound, ...props }) {
     const { TODAYS_DEAL } = ProductStrings;
     return (
         <Fragment>
+            <Helmet>
+          <title>New Arrivals</title>
+        </Helmet>
             <Container style={{ marginTop: '124px' }}>
                 <h2 style={{ fontWeight: 'bold' }}>{TODAYS_DEAL}</h2>
                 <Carousel

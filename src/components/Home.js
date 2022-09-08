@@ -10,6 +10,7 @@ import { hideSidebar, showSidebar } from '../actions/sidebar-actions';
 import img2 from '../images/header-PC2.jpg'
 import img3 from '../images/header-PC3.jpg'
 import Contact from './Contact';
+import { Helmet } from 'react-helmet';
 
 function Home({ isSidebarVisible, isPageNotFoundPage, setPageNotFound, ...props }) {
   const currentView = props.store.productsReducer.productView;
@@ -39,6 +40,9 @@ function Home({ isSidebarVisible, isPageNotFoundPage, setPageNotFound, ...props 
   return (
     <>
       <Container style={{ margin: '120px 0px 0px 0px' }}>
+        <Helmet>
+          <title>Home</title>
+        </Helmet>
         <Carousel
           controls={false}
           // activeIndex={2}
