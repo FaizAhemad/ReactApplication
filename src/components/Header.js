@@ -28,7 +28,6 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
     const [isLoading, setLoading] = useState(false);
 
     const [categories, setCategories] = useState([]);
-    let [searchResult, setSearchResult] = useState([]);
 
     useEffect(() => {
         if (isLoading) {
@@ -133,7 +132,7 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                     }
                                 </Nav>
                                 <Nav className="me-auto" >
-                                    <MainHeaderSearchBox setSearchResult={setSearchResult} />
+                                    <MainHeaderSearchBox />
 
                                 </Nav>
                                 <Nav className="justify-content-end" >
@@ -232,15 +231,7 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
                                     }
                                 </Nav>
                                 <Nav className="me-auto" >
-                                    <MainHeaderSearchBox setSearchResult={setSearchResult} />
-                                    {searchResult && <div style={{ position: 'absolute', border: '2px solid red', background: 'white' }}>
-                                        {searchResult.map(res => {
-                                            return (<p key={res.id}>
-                                                {res.email}
-                                            </p>)
-                                        })}
-                                    </div>
-                                    }
+                                    <MainHeaderSearchBox />
                                 </Nav>
                                 <Nav className="justify-content-end" >
                                     <NavLink
@@ -281,7 +272,6 @@ function Header({ brandName, isLoggedIn, isAdmin, currentUser, isSidebarVisible,
             }
             <div style={{ background: 'white', width: '100%', height: '60px', position: 'fixed', zIndex: 1, top: '74px', display: 'flex', alignItems: 'center', padding: '0 10px', justifyContent: 'space-between' }}>
                 <Nav>
-                    {/* <button onClick={() => setShowSidebar()} className='nav-link buttonAsLink'>Go to Home &#127968;</button> */}
                     <button onClick={() => setShowSidebar()} className='nav-link buttonAsLink'>{constants.OPEN}<FontAwesomeIcon icon={faChevronRight} /></button>
                 </Nav>
                 <div id='gridListViewButton'>
