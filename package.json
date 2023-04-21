@@ -2,9 +2,6 @@
   "name": "electronic-shop",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "14.18.1"
-  },
   "proxy": "http://localhost:4000",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -12,6 +9,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
+    "@syncfusion/ej2-react-grids": "^21.1.41",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -21,6 +19,7 @@
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.1",
+    "eslint-config-wesbos": "^3.2.3",
     "express": "^4.18.1",
     "express-sanitizer": "^1.0.6",
     "jsonwebtoken": "^8.5.1",
@@ -50,7 +49,13 @@
     "start": "set PORT=3006 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx,json}\"",
+    "lint:fix": "npm run lint -- --fix",
+    "prettier": "prettier \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "format": "npm run prettier -- --write",
+    "check-format": "npm run prettier -- --list-different",
+    "validate": "npm-run-all --parallel check-format lint  build"
   },
   "eslintConfig": {
     "extends": [
@@ -63,8 +68,7 @@
     }
   },
   "resolutions": {
-    "nth-check": "^2.1.1",
-    "busboy": "^1.6.0"
+    "nth-check": "^2.1.1"
   },
   "browserslist": {
     "production": [
@@ -79,7 +83,16 @@
     ]
   },
   "devDependencies": {
-    "busboy": "^1.6.0",
-    "nth-check": "^2.1.1"
+    "eslint": "^8.38.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-sonarjs": "^0.17.0",
+    "nth-check": "^2.1.1",
+    "prettier": "2.8.7"
   }
 }

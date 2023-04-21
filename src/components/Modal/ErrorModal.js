@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { setPageNotFoundComponent } from '../../actions/general-actions';
+import {connect} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {setPageNotFoundComponent} from '../../actions/general-actions';
 
-function ErrorModal({ setPageNotFound, ...props }) {
+function ErrorModal({setPageNotFound, ...props}) {
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -32,17 +32,25 @@ function ErrorModal({ setPageNotFound, ...props }) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => { navigate('/home'); handleClose() }}>Understood</Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate('/home');
+              handleClose();
+            }}
+          >
+            Understood
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 }
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    setPageNotFound: (value) => {
+    setPageNotFound: value => {
       dispatch(setPageNotFoundComponent(value));
-    }
+    },
   };
 };
 

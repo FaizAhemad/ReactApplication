@@ -1,36 +1,46 @@
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-react-grids/styles/material.css';
+
 ::-webkit-scrollbar {
-  width: 10px
+  width: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1
+  background: #f1f1f1;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(35, 44, 56)
+  background: rgb(35, 44, 56);
 }
 
 #main {
-  min-height: 100vh
+  min-height: 100vh;
 }
 
 h1 {
-  font-size: 5.9vw
+  font-size: 5.9vw;
 }
 
 h2 {
-  font-size: 3.0vh
+  font-size: 3vh;
 }
 
 p {
-  font-size: 2vmin
+  font-size: 2vmin;
 }
 
 .icons {
@@ -40,13 +50,13 @@ p {
   flex-direction: column;
   position: fixed;
   top: 170px;
-  left: -2px
+  left: -2px;
 }
 
 .icons.socialMedia .socialMediaIcons {
   width: 50px;
   height: 50px;
-  padding: 2px
+  padding: 2px;
 }
 
 .icons .icn-socialmedia {
@@ -55,136 +65,140 @@ p {
   justify-content: center;
   width: 46px;
   height: 70px;
-  padding: 12px
+  padding: 12px;
 }
 
 .icons .icn-socialmedia :hover {
-  cursor: pointer
+  cursor: pointer;
 }
 
 .icons .icn-socialmedia .facebook {
-  color: #039BE5;
-  transition: all .6s;
+  color: #039be5;
+  transition: all 0.6s;
   transform: rotate(0deg);
-  font-size: 22px
+  font-size: 22px;
 }
 
 .icons .icn-socialmedia .facebook:hover {
-  transform: rotate(360deg)
+  transform: rotate(360deg);
 }
 
 .icons .icn-socialmedia .instagram {
-  color: #C8195C;
+  color: #c8195c;
   font-size: 22px;
-  transition: all .6s;
-  transform: rotate(0deg)
+  transition: all 0.6s;
+  transform: rotate(0deg);
 }
 
 .icons .icn-socialmedia .instagram:hover {
-  transform: rotate(360deg)
+  transform: rotate(360deg);
 }
 
 .icons .icn-socialmedia .youtube {
   font-size: 22px;
-  transition: all .6s;
+  transition: all 0.6s;
   transform: rotate(0deg);
-  color: #FF3D00
+  color: #ff3d00;
 }
 
 .icons .icn-socialmedia .youtube:hover {
-  transform: rotate(360deg)
+  transform: rotate(360deg);
 }
 
 .icons .icn-socialmedia .whatsapp {
-  color: #56EA6C;
+  color: #56ea6c;
   font-size: 22px;
-  transition: all .6s;
-  transform: rotate(0deg)
+  transition: all 0.6s;
+  transform: rotate(0deg);
 }
 
 .icons .icn-socialmedia .whatsapp:hover {
-  transform: rotate(360deg)
+  transform: rotate(360deg);
 }
 
 .icons .icn-socialmedia .twitter {
-  color: #03A9F4;
+  color: #03a9f4;
   font-size: 22px;
-  transition: all .6s;
-  transform: rotate(0deg)
+  transition: all 0.6s;
+  transform: rotate(0deg);
 }
 
 .icons .icn-socialmedia .twitter:hover {
-  transform: rotate(360deg)
+  transform: rotate(360deg);
 }
 
 .icons .icn-socialmedia .linkedin {
-  color: #0073B1;
+  color: #0073b1;
   font-size: 22px;
-  transition: all .6s;
-  transform: rotate(0deg)
+  transition: all 0.6s;
+  transform: rotate(0deg);
 }
 
 .icons .icn-socialmedia .linkedin:hover {
-  transform: rotate(360deg)
+  transform: rotate(360deg);
 }
 
 .headerNavbar.navbar {
-  padding: 10px 20px
+  padding: 10px 20px;
 }
 
 .headerNavbar.navbar .container-fluid .navbar-collapse .navbar-nav .nav-link {
-  transition: all .4s;
+  transition: all 0.4s;
   padding: 15px;
   background: transparent;
-  width: max-content
+  width: max-content;
 }
 
 .nav-link.buttonAsLink {
   padding: 0;
   box-shadow: none;
   background: transparent;
-  border: none
+  border: none;
 }
 
 .header-right-nav {
   color: white !important;
   background-color: transparent !important;
   padding-top: 10px;
-  border-bottom: 5px solid transparent
+  border-bottom: 5px solid transparent;
 }
 
 .header-right-nav:hover {
-  border-bottom: 5px solid #0073B1
+  border-bottom: 5px solid #0073b1;
 }
 
 #header-search-box {
-  border: 4px solid transparent
+  border: 4px solid transparent;
 }
 
 #header-search-box:focus {
-  border: 4px solid #03A9F4
+  border: 4px solid #03a9f4;
 }
 
 .header-right-nav.active {
-  border-bottom: 5px solid #03A9F4;
-  border-bottom-width: thick
+  border-bottom: 5px solid #03a9f4;
+  border-bottom-width: thick;
 }
 
 .headerNavbar.navbar .container-fluid .navbar-collapse .navbar-nav .nav-link:hover {
-  background: #0073B1
+  background: #0073b1;
 }
 
-.headerNavbar.navbar .container-fluid .navbar-collapse .navbar-nav .nav-link.active:not(.removeActiveFrom_navlink) {
-  background: #03A9F4
+.headerNavbar.navbar
+  .container-fluid
+  .navbar-collapse
+  .navbar-nav
+  .nav-link.active:not(.removeActiveFrom_navlink) {
+  background: #03a9f4;
 }
 
 .brand {
   color: white !important;
-  text-decoration: none
+  text-decoration: none;
 }
 
 .footer {
-  margin-top: 100px
+  margin-top: 100px;
 }
 
 #footerBackToTop {
@@ -192,59 +206,59 @@ p {
   border: 2px solid white;
   cursor: pointer;
   padding: 5px 10px;
-  transition: all .7s;
-  font-weight: 600
+  transition: all 0.7s;
+  font-weight: 600;
 }
 
 #footerBackToTop:hover {
   color: lightgreen;
   font-weight: 600;
-  border: 2px solid #03A9F4;
-  transition: all .7s
+  border: 2px solid #03a9f4;
+  transition: all 0.7s;
 }
 
 .footer .nav_a {
   color: lightgrey !important;
   text-decoration: none;
-  border-bottom: 3px solid transparent
+  border-bottom: 3px solid transparent;
 }
 
 .footer .nav_a:hover {
   color: white !important;
-  border-bottom: 3px solid green
+  border-bottom: 3px solid green;
 }
 
 .selectCustomHeight .dropdown-menu {
   max-height: 146px;
   overflow: scroll;
   overflow-x: hidden;
-  margin-top: 0px
+  margin-top: 0px;
 }
 
 form {
   box-shadow: 2px 0px 7px 3px grey;
   padding: 10px;
-  border-radius: 3px
+  border-radius: 3px;
 }
 
 .sidebar-link {
   color: white !important;
   text-decoration: none;
-  transition: all .7s;
+  transition: all 0.7s;
   padding: 25px 10px;
   display: block;
-  border-left: 10px solid transparent
+  border-left: 10px solid transparent;
 }
 
 .sidebar-link.active {
-  background-color: #42878E;
+  background-color: #42878e;
   text-decoration: none;
-  border-left: 10px solid red
+  border-left: 10px solid red;
 }
 
 .sidebar-link:hover:not(.active) {
   background-color: #57b0ba;
-  border-left: 10px solid rgb(228, 107, 107)
+  border-left: 10px solid rgb(228, 107, 107);
 }
 
 .fixedLiBgColor {
@@ -253,36 +267,36 @@ form {
   width: 100%;
   padding: 15px 10px;
   align-items: center;
-  background-color: #42878E
+  background-color: #42878e;
 }
 
 .fixedLiBgColor a,
 .fixedLiBgColor svg {
   color: white !important;
-  text-decoration: none
+  text-decoration: none;
 }
 
 .fixedLiBgColor svg {
   padding: 0px 5px 5px 5px;
-  font-size: 20px
+  font-size: 20px;
 }
 
 .carousel-control-next,
 .carousel-control-prev {
   height: 87%;
-  width: 7% !important
+  width: 7% !important;
 }
 
 .react-multi-carousel-list {
-  height: '400px' !important
+  height: '400px' !important;
 }
 
 .react-multiple-carousel__arrow--left {
-  left: 10px
+  left: 10px;
 }
 
 .react-multiple-carousel__arrow--right {
-  right: 10px
+  right: 10px;
 }
 
 .react-multiple-carousel__arrow--left {
@@ -291,13 +305,13 @@ form {
   border-top-left-radius: 5px !important;
   border-bottom-left-radius: 5px !important;
   border-radius: 10px;
-  transition: all .9s;
-  opacity: .1
+  transition: all 0.9s;
+  opacity: 0.1;
 }
 
 .react-multiple-carousel__arrow--left:hover {
-  opacity: .7;
-  transition: all .9s
+  opacity: 0.7;
+  transition: all 0.9s;
 }
 
 .react-multiple-carousel__arrow--right {
@@ -306,44 +320,42 @@ form {
   border-top-right-radius: 5px !important;
   border-bottom-right-radius: 5px !important;
   border-radius: 10px;
-  transition: all .9s;
-  opacity: .1
+  transition: all 0.9s;
+  opacity: 0.1;
 }
 
 .react-multiple-carousel__arrow--right:hover {
-  opacity: .7;
-  transition: all .9s
+  opacity: 0.7;
+  transition: all 0.9s;
 }
 
-@media screen and (max-width:992px) {
+@media screen and (max-width: 992px) {
   #totalItemsInMyCart {
-    left: 33px !important
+    left: 33px !important;
   }
 
   #gridListViewButton {
-    display: none
+    display: none;
   }
 }
 
 #collasible-nav-dropdown {
-  width: max-content !important
+  width: max-content !important;
 }
 
 .dropdown-toggle::after {
-  display: none !important
+  display: none !important;
 }
 
 .nav-item.show.dropdown {
-  position: relative
+  position: relative;
 }
 
 .nav-item.show.dropdown .dropdown-menu.show {
-  background-color: #0073B1 !important;
-
+  background-color: #0073b1 !important;
 }
 
 .expandedDD.nav-item.show.dropdown .dropdown-menu.show {
-
   top: 62px !important;
   left: 0;
   border-radius: 0;
@@ -351,7 +363,7 @@ form {
   width: 100%;
   height: 100vh;
   position: fixed;
-  overflow-y: auto
+  overflow-y: auto;
 }
 
 .navbarCollapsed.nav-item.show.dropdown .dropdown-menu.show {
@@ -361,10 +373,10 @@ form {
   border: none;
   width: 100%;
   height: 450px;
-  overflow-y: auto
+  overflow-y: auto;
 }
 .nav-item.show.dropdown .dropdown-menu.show .dropdown-item.heading {
-  border: 4px solid transparent !important
+  border: 4px solid transparent !important;
 }
 
 .nav-item.show.dropdown .dropdown-menu.show .dropdown-item {
@@ -373,17 +385,17 @@ form {
   background: transparent !important;
   font-weight: 600 !important;
   border: 4px solid transparent;
-  padding: 10px
+  padding: 10px;
 }
 
 .nav-item.show.dropdown .dropdown-menu.show .dropdown-item:hover {
   border: 4px solid black;
-  color: black
+  color: black;
 }
 
 .heading:hover {
   color: white !important;
-  cursor: default
+  cursor: default;
 }
 
 .form-heading {
@@ -392,7 +404,7 @@ form {
   -webkit-background-clip: text;
   -moz-background-clip: text;
   background-clip: text;
-  color: transparent !important
+  color: transparent !important;
 }
 
 .animated-text-outer {
@@ -403,23 +415,23 @@ form {
   animation-duration: 2s;
   left: 0;
   bottom: -8px;
-  animation-fill-mode: forwards
+  animation-fill-mode: forwards;
 }
 
 @keyframes increaseBorder {
   0% {
     width: 0%;
-    border-bottom: 5px solid green
+    border-bottom: 5px solid green;
   }
 
   100% {
     width: 24%;
-    border-bottom: 5px solid blueviolet
+    border-bottom: 5px solid blueviolet;
   }
 }
 
-#sideNavHeight{
+#sideNavHeight {
   max-height: calc(100% - 74px);
   height: 100%;
-  overflow-y: auto
+  overflow-y: auto;
 }

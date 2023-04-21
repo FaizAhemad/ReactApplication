@@ -1,23 +1,21 @@
-import { useEffect } from "react";
-import { connect } from "react-redux";
-import { defaultScrollPosition } from "../constants/constants";
+import {useEffect} from 'react';
+import {connect} from 'react-redux';
+import {defaultScrollPosition} from '../constants/constants';
+import {setPageNotFoundComponent} from '../actions/general-actions';
 
-function Blogs({ setPageNotFound }) {
-
+function Blogs({setPageNotFound}) {
   useEffect(() => {
     defaultScrollPosition();
   }, []);
 
-  return (
-    <div className='componentContainer'></div>
-  )
-};
+  return <div className="componentContainer" />;
+}
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    setPageNotFound: (value) => {
+    setPageNotFound: value => {
       dispatch(setPageNotFoundComponent(value));
-    }
+    },
   };
 };
 
